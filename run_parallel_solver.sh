@@ -12,7 +12,7 @@ do
         let "idx = $i + $j"
         if [ $idx -lt $num_instances ] ;
            then
-               python dynamic_solver.py --instance ${instances[$idx]} --strategy $strategy &
+               python solver.py --instance ${instances[$idx]} --strategy $strategy &
         fi
     done
     wait
