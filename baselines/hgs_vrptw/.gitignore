@@ -1,2 +1,4 @@
 *.o
 genvrp
+.idea/
+build/
