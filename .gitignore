@@ -1,3 +1,4 @@
 .vscode
 .flake8
 tmp
+.idea/
