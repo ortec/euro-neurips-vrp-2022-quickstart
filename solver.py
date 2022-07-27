@@ -30,14 +30,14 @@ def solve_static_vrptw(instance, time_limit=3600, tmp_dir="tmp", seed=1):
     #   depends on your CMake configurations).
     hgspy = tools.get_hgspy_module(where='release/lib/hgspy*.so')
 
-    config = hgspy.Config(seed=seed, nbVeh=-1)
+    config = hgspy.Config(seed=seed, nbVeh=-1, timeLimit=max(time_limit - 1, 1))
     params = hgspy.Params(config, **tools.inst_to_vars(instance))
-    pop = hgspy.Population(params)
-    split = hgspy.Split()
+    split = hgspy.Split(params)
     ls = hgspy.LocalSearch(params)
 
+    pop = hgspy.Population(params, split, ls)
     algo = hgspy.Genetic(params, split, pop, ls)
-    algo.run(maxIterNonProd=20_000, timeLimit=max(time_limit - 1, 1))
+    algo.run(maxIterNonProd=20_000, timeLimit=max(time_limit - 1, 1))  # TODO weird double argument
 
     best = pop.getBestFound()
     routes = best.routes

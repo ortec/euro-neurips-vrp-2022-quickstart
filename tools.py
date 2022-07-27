@@ -324,7 +324,7 @@ def write_vrplib(filename, instance, name="problem", euclidean=False, is_vrptw=T
 
 
 def get_hgspy_module(where: str):
-    lib_path = next(glob.iglob(where))
+    lib_path = glob.glob(where)[0]
     loader = importlib.machinery.ExtensionFileLoader('hgspy', lib_path)
     spec = importlib.util.spec_from_loader(loader.name, loader)
     hgspy = importlib.util.module_from_spec(spec)

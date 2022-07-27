@@ -16,7 +16,6 @@
 
 
 
-
 Params::Params(const CommandLine& cl)
 {
 	// Read and create some parameter values from the commandline
@@ -385,38 +384,6 @@ Params::Params(const CommandLine& cl)
 			}
 		}
 	}
-	
-
-	// Compute order proximities once
-	orderProximities = std::vector<std::vector<std::pair<double, int>>>(nbClients + 1);
-	// Loop over all clients (excluding the depot)
-	for (int i = 1; i <= nbClients; i++)
-	{
-		// Remove all elements from the vector
-		auto& orderProximity = orderProximities[i];
-		orderProximity.clear();
-
-		// Loop over all clients (excluding the depot and the specific client itself)
-		for (int j = 1; j <= nbClients; j++)
-		{
-			if (i != j)
-			{
-				// Compute proximity using Eq. 4 in Vidal 2012, and append at the end of orderProximity
-				const int timeIJ = timeCost.get(i, j);
-				orderProximity.emplace_back(
-					timeIJ
-					+ std::min(
-						proximityWeightWaitTime * std::max(cli[j].earliestArrival - timeIJ - cli[i].serviceDuration - cli[i].latestArrival, 0)
-						+ proximityWeightTimeWarp * std::max(cli[i].earliestArrival + cli[i].serviceDuration + timeIJ - cli[j].latestArrival, 0),
-						proximityWeightWaitTime * std::max(cli[i].earliestArrival - timeIJ - cli[j].serviceDuration - cli[j].latestArrival, 0)
-						+ proximityWeightTimeWarp * std::max(cli[j].earliestArrival + cli[j].serviceDuration + timeIJ - cli[i].latestArrival, 0)),
-					j);
-			}
-		}
-		
-		// Sort orderProximity (for the specific client)
-		std::sort(orderProximity.begin(), orderProximity.end());
-	}
 
 	// Calculate, for all vertices, the correlation for the nbGranular closest vertices
 	SetCorrelatedVertices();
@@ -455,10 +422,25 @@ Params::Params(Config &config,
                std::vector<int> const &servDurs,
                std::vector<std::vector<int>> const &distMat,
                std::vector<int> const &releases)
-    : config(config), nbClients(coords.size() - 1), vehicleCapacity(vehicleCap)
+    : config(config), nbClients(coords.size() - 1), vehicleCapacity(vehicleCap),
+      maxDist(0)
 {
-    int totalDemand = std::accumulate(demands.begin(), demands.end(), 0);
-    int maxDemand = *std::max_element(demands.begin(), demands.end());
+    // Read and create some parameter values from the commandline
+    nbVehicles = config.nbVeh;
+    rng = XorShift128(config.seed);
+    startWallClockTime = std::chrono::system_clock::now();
+    startCPUTime = std::clock();
+
+    // Convert the circle sector parameters from degrees ([0,359]) to [0,65535] to allow for faster calculations
+    circleSectorOverlapTolerance = static_cast<int>(config.circleSectorOverlapToleranceDegrees / 360. * 65536);
+    minCircleSectorSize = static_cast<int>(config.minCircleSectorSizeDegrees / 360. * 65536);
+    durationLimit = INT_MAX;
+    isDurationConstraint = false;
+    isTimeWindowConstraint = true;
+    isExplicitDistanceMatrix = true;
+
+    totalDemand = std::accumulate(demands.begin(), demands.end(), 0);
+    maxDemand = *std::max_element(demands.begin(), demands.end());
 
     if (config.isDimacsRun || config.useDynamicParameters)
         setDynamicParameters();
@@ -469,7 +451,6 @@ Params::Params(Config &config,
     nbVehicles = static_cast<int>(vehicleMargin) + 3;
 
     timeCost = Matrix(distMat.size());
-    int maxDist;
 
     for (size_t i = 0; i != distMat.size(); ++i)
         for (size_t j = 0; j != distMat[i].size(); ++j)
@@ -549,7 +530,39 @@ bool Params::isTimeLimitExceeded(){
 	return getTimeElapsedSeconds() >= config.timeLimit;
 }
 
-void Params::SetCorrelatedVertices(){
+void Params::SetCorrelatedVertices()
+{
+  	// Compute order proximities once
+	orderProximities = std::vector<std::vector<std::pair<double, int>>>(nbClients + 1);
+	// Loop over all clients (excluding the depot)
+	for (int i = 1; i <= nbClients; i++)
+	{
+		// Remove all elements from the vector
+		auto& orderProximity = orderProximities[i];
+		orderProximity.clear();
+
+		// Loop over all clients (excluding the depot and the specific client itself)
+		for (int j = 1; j <= nbClients; j++)
+		{
+			if (i != j)
+			{
+				// Compute proximity using Eq. 4 in Vidal 2012, and append at the end of orderProximity
+				const int timeIJ = timeCost.get(i, j);
+				orderProximity.emplace_back(
+					timeIJ
+					+ std::min(
+						proximityWeightWaitTime * std::max(cli[j].earliestArrival - timeIJ - cli[i].serviceDuration - cli[i].latestArrival, 0)
+						+ proximityWeightTimeWarp * std::max(cli[i].earliestArrival + cli[i].serviceDuration + timeIJ - cli[j].latestArrival, 0),
+						proximityWeightWaitTime * std::max(cli[i].earliestArrival - timeIJ - cli[j].serviceDuration - cli[j].latestArrival, 0)
+						+ proximityWeightTimeWarp * std::max(cli[j].earliestArrival + cli[j].serviceDuration + timeIJ - cli[i].latestArrival, 0)),
+					j);
+			}
+		}
+
+		// Sort orderProximity (for the specific client)
+		std::sort(orderProximity.begin(), orderProximity.end());
+	}
+
 	// Calculation of the correlated vertices for each client (for the granular restriction)
 	correlatedVertices = std::vector<std::vector<int>>(nbClients + 1);
 

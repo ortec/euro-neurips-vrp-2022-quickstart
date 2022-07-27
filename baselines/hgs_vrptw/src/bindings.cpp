@@ -3,6 +3,7 @@
 #include "LocalSearch.h"
 #include "Params.h"
 #include "Population.h"
+#include "Split.h"
 
 #include <pybind11/stl.h>
 
@@ -112,12 +113,14 @@ PYBIND11_MODULE(hgspy, m)
              py::arg("duration_matrix"),
              py::arg("release_times"));
 
+    py::class_<Split>(m, "Split")
+        .def(py::init<Params *>(), py::arg("params"));
+
   py::class_<LocalSearch>(m, "LocalSearch")
       .def(py::init<Params *>(), py::arg("params"));
 
   py::class_<Individual>(m, "Individual")
-      .def_readonly("routes", &Individual::chromR)
-      .def_readonly("tour", &Individual::chromT)
+      .def("routes", [](Individual &indiv) { return indiv.chromR; })
       .def("cost", [](Individual &indiv) { return indiv.myCostSol.penalizedCost; });
 
     py::class_<Population>(m, "Population")
