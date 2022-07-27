@@ -58,6 +58,12 @@ class CommandLine;
 // Class that stores all the parameters (from the command line) (in Config) and data of the instance needed by the algorithm
 class Params
 {
+    /**
+     * Sets dynamic parameters based on the instance size. Use is toggled by the
+     * ``config.useDynamicParameters`` flag.
+     */
+    void setDynamicParameters();
+
 public:
 	// Stores all the parameters values (given by using the command line)
 	struct Config
@@ -150,7 +156,30 @@ public:
 	// Initialization from a given data set
 	Params(const CommandLine&);
 
-	// Get time elapsed since start of program
+        /**
+         * Constructs a Params object with the given configuration, and passed-in
+         * data. Assumes the data contains the depot, such that each vector is one
+         * longer than the number of clients.
+         *
+         * @param config       Configuration object.
+         * @param coords       Coordinates as pairs of [x, y].
+         * @param demands      Client demands.
+         * @param vehicleCap   Vehicle capacity.
+         * @param timeWindows  Time windows as pairs of [early, late].
+         * @param servDurs     Service durations.
+         * @param distMat      Distance matrix.
+         * @param releases     Client release times.
+         */
+        Params(Config &config,
+               std::vector<std::pair<int, int>> const &coords,
+               std::vector<int> const &demands,
+               int vehicleCap,
+               std::vector<std::pair<int, int>> const &timeWindows,
+               std::vector<int> const &servDurs,
+               std::vector<std::vector<int>> const &distMat,
+               std::vector<int> const &releases);
+
+        // Get time elapsed since start of program
 	double getTimeElapsedSeconds();
 
 	// Whether time limit is exceeded

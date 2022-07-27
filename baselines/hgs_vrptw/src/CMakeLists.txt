@@ -30,3 +30,7 @@ add_library(hgs
 # Executable
 add_executable(genvrp main.cpp)
 target_link_libraries(genvrp PRIVATE hgs)
+
+# Python bindings
+pybind11_add_module(hgspy bindings.cpp)
+target_link_libraries(hgspy PRIVATE hgs)
