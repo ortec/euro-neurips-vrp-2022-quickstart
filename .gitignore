@@ -2,3 +2,5 @@
 .flake8
 tmp
 .idea/
+
+__pycache__/
