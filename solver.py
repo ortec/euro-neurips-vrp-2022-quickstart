@@ -26,42 +26,30 @@ def solve_static_vrptw(instance, time_limit=3600, tmp_dir="tmp", seed=1):
         yield solution, cost
         return
 
-    os.makedirs(tmp_dir, exist_ok=True)
-    instance_filename = os.path.join(tmp_dir, "problem.vrptw")
-    tools.write_vrplib(instance_filename, instance, is_vrptw=True)
-    
-    executable = os.path.join('baselines', 'hgs_vrptw', 'genvrp')
-    # On windows, we may have genvrp.exe
-    if platform.system() == 'Windows' and os.path.isfile(executable + '.exe'):
-        executable = executable + '.exe'
-    assert os.path.isfile(executable), f"HGS executable {executable} does not exist!"
-    # Call HGS solver with unlimited number of vehicles allowed and parse outputs
-    # Subtract two seconds from the time limit to account for writing of the instance and delay in enforcing the time limit by HGS
-    with subprocess.Popen([
-                executable, instance_filename, str(max(time_limit - 2, 1)), 
-                '-seed', str(seed), '-veh', '-1', '-useWallClockTime', '1'
-            ], stdout=subprocess.PIPE, text=True) as p:
-        routes = []
-        for line in p.stdout:
-            line = line.strip()
-            # Parse only lines which contain a route
-            if line.startswith('Route'):
-                label, route = line.split(": ")
-                route_nr = int(label.split("#")[-1])
-                assert route_nr == len(routes) + 1, "Route number should be strictly increasing"
-                routes.append([int(node) for node in route.split(" ")])
-            elif line.startswith('Cost'):
-                # End of solution
-                solution = routes
-                cost = int(line.split(" ")[-1].strip())
-                check_cost = tools.validate_static_solution(instance, solution)
-                assert cost == check_cost, "Cost of HGS VRPTW solution could not be validated"
-                yield solution, cost
-                # Start next solution
-                routes = []
-            elif "EXCEPTION" in line:
-                raise Exception("HGS failed with exception: " + line)
-        assert len(routes) == 0, "HGS has terminated with imcomplete solution (is the line with Cost missing?)"
+    # TODO set 'where' to the path of your shared Python module (where that is
+    #   depends on your CMake configurations).
+    hgspy = tools.get_hgspy_module(where='release/lib/hgspy*.so')
+
+    config = hgspy.Config(seed=seed, nbVeh=-1, timeLimit=max(time_limit - 1, 1))
+    params = hgspy.Params(config, **tools.inst_to_vars(instance))
+    split = hgspy.Split(params)
+    ls = hgspy.LocalSearch(params)
+
+    pop = hgspy.Population(params, split, ls)
+    algo = hgspy.Genetic(params, split, pop, ls)
+    algo.run(maxIterNonProd=20_000, timeLimit=max(time_limit - 1, 1))  # TODO weird double argument
+
+    best = pop.getBestFound()
+
+    if not best:
+        raise ValueError("Expected a feasible solution; none found!")
+
+    routes = [route for route in best.routes() if route]
+    cost = best.cost()
+
+    assert np.isclose(tools.validate_static_solution(instance, routes), cost)
+
+    yield routes, cost
 
 
 def run_oracle(args, env):
