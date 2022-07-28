@@ -40,7 +40,11 @@ def solve_static_vrptw(instance, time_limit=3600, tmp_dir="tmp", seed=1):
     algo.run(maxIterNonProd=20_000, timeLimit=max(time_limit - 1, 1))  # TODO weird double argument
 
     best = pop.getBestFound()
-    routes = best.routes
+
+    if not best:
+        raise ValueError("Expected a feasible solution; none found!")
+
+    routes = [route for route in best.routes() if route]
     cost = best.cost()
 
     assert np.isclose(tools.validate_static_solution(instance, routes), cost)
