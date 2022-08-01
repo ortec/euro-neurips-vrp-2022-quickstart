@@ -93,6 +93,8 @@ public:
 					config.logPoolInterval = atoi(argv[i + 1]);
 				else if (std::string(argv[i]) == "-nbGranular")
 					config.nbGranular = atoi(argv[i + 1]);
+				else if (std::string(argv[i]) == "-initialSolution")
+					config.initialSolution = std::string(argv[i + 1]);
 				else if (std::string(argv[i]) == "-fractionGeneratedNearest")
 					config.fractionGeneratedNearest = atof(argv[i + 1]);
 				else if (std::string(argv[i]) == "-fractionGeneratedFurthest")

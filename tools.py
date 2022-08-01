@@ -43,6 +43,18 @@ def cleanup_tmp_dir(tmp_dir):
     os.rmdir(tmp_dir)
 
 
+def to_giant_tour(routes, with_depot=True):
+    # Converts a list of routes to a giant tour with depots
+    if len(routes) == 0:
+        return []
+    tour = list(routes[0])
+    for route in routes[1:]:
+        if with_depot:
+            tour.append(0)
+        tour.extend(list(route))
+    return tour
+
+
 def compute_solution_driving_time(instance, solution):
     return sum([
         compute_route_driving_time(route, instance['duration_matrix']) 

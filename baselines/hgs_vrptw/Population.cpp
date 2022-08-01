@@ -42,6 +42,14 @@ void Population::generatePopulation()
 		addIndividual(&randomIndiv, true);
 		return;
 	}
+
+	if (params->config.initialSolution != "")
+	{
+		Individual initialIndiv(params, params->config.initialSolution);		
+		addIndividual(&initialIndiv, true);
+		std::cout << "Added initial solution to population" << std::endl;
+	}
+
 	// ------- The below parameters are configurable through command line arguments ---------
 	double fractionGeneratedNearest = params->config.fractionGeneratedNearest;
 	double fractionGeneratedFurthest = params->config.fractionGeneratedFurthest;

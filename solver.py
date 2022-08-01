@@ -12,7 +12,7 @@ from environment import VRPEnvironment, ControllerEnvironment
 from baselines.strategies import STRATEGIES
 
 
-def solve_static_vrptw(instance, time_limit=3600, tmp_dir="tmp", seed=1):
+def solve_static_vrptw(instance, time_limit=3600, tmp_dir="tmp", seed=1, initial_solution=None):
 
     # Prevent passing empty instances to the static solver, e.g. when
     # strategy decides to not dispatch any requests for the current epoch
@@ -37,10 +37,13 @@ def solve_static_vrptw(instance, time_limit=3600, tmp_dir="tmp", seed=1):
     assert os.path.isfile(executable), f"HGS executable {executable} does not exist!"
     # Call HGS solver with unlimited number of vehicles allowed and parse outputs
     # Subtract two seconds from the time limit to account for writing of the instance and delay in enforcing the time limit by HGS
-    with subprocess.Popen([
-                executable, instance_filename, str(max(time_limit - 2, 1)), 
-                '-seed', str(seed), '-veh', '-1', '-useWallClockTime', '1'
-            ], stdout=subprocess.PIPE, text=True) as p:
+    hgs_cmd = [
+        executable, instance_filename, str(max(time_limit - 2, 1)), 
+        '-seed', str(seed), '-veh', '-1', '-useWallClockTime', '1'
+    ]
+    if initial_solution is not None:
+        hgs_cmd += ['-initialSolution', " ".join(map(str, tools.to_giant_tour(initial_solution)))]
+    with subprocess.Popen(hgs_cmd, stdout=subprocess.PIPE, text=True) as p:
         routes = []
         for line in p.stdout:
             line = line.strip()
@@ -70,26 +73,29 @@ def run_oracle(args, env):
     # This oracle can also be used as supervision for training a model to select which requests to dispatch
 
     # First get hindsight problem (each request will have a release time)
-    done = False
-    observation, info = env.reset()
-    epoch_tlim = info['epoch_tlim']
-    while not done:
-        # Dummy solution: 1 route per request
-        epoch_solution = [[request_idx] for request_idx in observation['epoch_instance']['request_idx'][1:]]
-        observation, reward, done, info = env.step(epoch_solution)
+    # As a start solution for the oracle solver, we use the greedy solution
+    # This may help the oracle solver to find a good solution more quickly
+    log("Running greedy baseline to get start solution and hindsight problem for oracle solver...")
+    run_baseline(args, env, strategy='greedy')
+    # Get greedy solution as simple list of routes
+    greedy_solution = [route for epoch, routes in env.final_solutions.items() for route in routes]
     hindsight_problem = env.get_hindsight_problem()
 
+    # Compute oracle solution (separate time limit since epoch_tlim is used for greedy initial solution)
     log(f"Start computing oracle solution with {len(hindsight_problem['coords'])} requests...")
-    oracle_solution = min(solve_static_vrptw(hindsight_problem, time_limit=epoch_tlim, tmp_dir=args.tmp_dir), key=lambda x: x[1])[0]
+    oracle_solution = min(solve_static_vrptw(hindsight_problem, time_limit=args.oracle_tlim, tmp_dir=args.tmp_dir, initial_solution=greedy_solution), key=lambda x: x[1])[0]
     oracle_cost = tools.validate_static_solution(hindsight_problem, oracle_solution)
     log(f"Found oracle solution with cost {oracle_cost}")
 
+    # Run oracle solution through environment (note: will reset environment again with same seed)
     total_reward = run_baseline(args, env, oracle_solution=oracle_solution)
     assert -total_reward == oracle_cost, "Oracle solution does not match cost according to environment"
     return total_reward
 
 
-def run_baseline(args, env, oracle_solution=None):
+def run_baseline(args, env, oracle_solution=None, strategy=None):
+
+    strategy = strategy or args.strategy
 
     rng = np.random.default_rng(args.solver_seed)
 
@@ -116,7 +122,7 @@ def run_baseline(args, env, oracle_solution=None):
         else:
             # Select the requests to dispatch using the strategy
             # TODO improved better strategy (machine learning model?) to decide which non-must requests to dispatch
-            epoch_instance_dispatch = STRATEGIES[args.strategy](epoch_instance, rng)
+            epoch_instance_dispatch = STRATEGIES[strategy](epoch_instance, rng)
 
             # Run HGS with time limit and get last solution (= best solution found)
             # Note we use the same solver_seed in each epoch: this is sufficient as for the static problem
@@ -166,6 +172,7 @@ if __name__ == "__main__":
     parser.add_argument("--solver_seed", type=int, default=1, help="Seed to use for the solver")
     parser.add_argument("--static", action='store_true', help="Add this flag to solve the static variant of the problem (by default dynamic)")
     parser.add_argument("--epoch_tlim", type=int, default=120, help="Time limit per epoch")
+    parser.add_argument("--oracle_tlim", type=int, default=120, help="Time limit for oracle")
     parser.add_argument("--tmp_dir", type=str, default=None, help="Provide a specific directory to use as tmp directory (useful for debugging)")
     parser.add_argument("--verbose", action='store_true', help="Show verbose output")
     args = parser.parse_args()

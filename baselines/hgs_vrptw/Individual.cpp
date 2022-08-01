@@ -249,6 +249,37 @@ Individual::Individual(Params* params, bool initializeChromTAndShuffle) : params
 	}
 }
 
+Individual::Individual(Params* params, std::string solutionStr) : params(params), isFeasible(false), biasedFitness(0)
+{
+	successors = std::vector<int>(params->nbClients + 1);
+	predecessors = std::vector<int>(params->nbClients + 1);
+	chromR = std::vector<std::vector<int>>(params->nbVehicles);
+	chromT = std::vector<int>(params->nbClients);
+
+	std::stringstream ss(solutionStr);
+	int inputCustomer;
+	// Loops as long as there is an integer to read
+	int pos = 0;
+	int route = 0;
+	while (ss >> inputCustomer)
+	{
+		if (inputCustomer == 0)
+		{
+			// Depot
+			route++;
+			assert(route < params->nbVehicles);
+		}
+		else
+		{
+			chromR[route].push_back(inputCustomer);
+			chromT[pos] = inputCustomer;
+			pos++;
+		}
+	}
+	assert (pos == params->nbClients);
+	evaluateCompleteCost();
+}
+
 Individual::Individual(): params(nullptr), isFeasible(false), biasedFitness(0)
 {
 	myCostSol.penalizedCost = 1.e30;

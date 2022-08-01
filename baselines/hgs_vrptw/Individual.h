@@ -86,6 +86,9 @@ public:
 	// Constructor: create a random individual
 	Individual(Params* params, bool initializeChromTAndShuffle = true);
 
+	// Constructor: create an individual from a giant tour representation including 0 for depot
+	Individual(Params* params, std::string solutionStr);
+
 	// Constructor: create an empty individual
 	Individual();
 };

@@ -96,6 +96,7 @@ public:
 		int growPopulationAfterIterations = 0;					// The number of iteration after which minimumPopulationSize is grown
 		int growPopulationSize = 0;								// The number minimumPopulationSize is increase by
 		double diversityWeight = 0.;							// Weight for diversity criterium, if 0, weight is 1 - nbElite / populationSize
+		std::string initialSolution = "";						// Initial solution, represented as 'giant tour' with 0 for depot: 1 2 3 0 4 5 6
 
 		// Other parameters
 		int nbVeh = INT_MAX;								// Number of vehicles
