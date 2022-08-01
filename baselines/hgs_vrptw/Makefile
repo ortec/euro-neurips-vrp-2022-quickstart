@@ -40,7 +40,7 @@ $(TARGETDIR)/Split.o: Split.h Split.cpp
 	$(CCC) $(CCFLAGS) -c Split.cpp -o $(TARGETDIR)/Split.o
 
 test: genvrp
-	./genvrp ../../../VRPTWController/Instances/Homberger/C1_2_1.txt C1_2_1.sol -seed 1 
+	./genvrp ../../instances/ORTEC-VRPTW-ASYM-0bdff870-d1-n458-k35.txt test.sol -seed 1 
 
 clean:
 	$(RM) \
