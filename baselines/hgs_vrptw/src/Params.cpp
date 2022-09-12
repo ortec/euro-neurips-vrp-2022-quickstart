@@ -6,13 +6,13 @@
 #include <vector>
 #include <cmath>
 #include <cstdio>
+#include <numeric>
 
 #include "Params.h"
 #include "Matrix.h"
 #include "xorshift128.h"
 #include "commandline.h"
 #include "CircleSector.h"
-
 
 
 
@@ -361,66 +361,9 @@ Params::Params(const CommandLine& cl)
 		std::cout << "DIMACS RUN for instance name " << instanceName << ", writing solution to " << config.pathSolution << std::endl;
 	}
 
-	// For DIMACS runs, or when dynamic parameters have to be used, set more parameter values
-	if (config.isDimacsRun || config.useDynamicParameters)
-	{
-		// Determine categories of instances based on number of stops/route and whether it has large time windows
-		// Calculate an upper bound for the number of stops per route based on capacities
-		double stopsPerRoute = vehicleCapacity / (totalDemand / nbClients);
-		// Routes are large when more than 25 stops per route
-		bool hasLargeRoutes = stopsPerRoute > 25;
-		// Get the time horizon (by using the time window of the depot)
-		int horizon = cli[0].latestArrival - cli[0].earliestArrival;
-		int nbLargeTW = 0;
+        if (config.isDimacsRun || config.useDynamicParameters)
+            setDynamicParameters();
 
-		// Loop over all clients (excluding the depot) and count the amount of large time windows (greater than 0.7*horizon)
-		for (int i = 1; i <= nbClients; i++)
-		{
-			if (cli[i].latestArrival - cli[i].earliestArrival > 0.7 * horizon)
-			{
-				nbLargeTW++;
-			}
-		}
-		// Output if an instance has large routes and a large time window
-		bool hasLargeTW = nbLargeTW > 0;
-		std::cout << "----- HasLargeRoutes: " << hasLargeRoutes << ", HasLargeTW: " << hasLargeTW << std::endl;
-		
-		// Set the parameter values based on the characteristics of the instance
-		if (hasLargeRoutes)
-		{
-			config.nbGranular = 40;
-			// Grow neighborhood and population size
-			config.growNbGranularAfterIterations = 10000;
-			config.growNbGranularSize = 5;
-			config.growPopulationAfterIterations = 10000;
-			config.growPopulationSize = 5;
-			// Intensify occasionally
-			config.intensificationProbabilityLS = 15;
-		}
-		else
-		{
-			// Grow population size only
-			// config.growNbGranularAfterIterations = 10000;
-			// config.growNbGranularSize = 5;
-			if (hasLargeTW)
-			{
-				// Smaller neighbourhood so iterations are faster
-				// So take more iterations before growing population
-				config.nbGranular = 20;
-				config.growPopulationAfterIterations = 20000;
-			}
-			else
-			{
-				config.nbGranular = 40;
-				config.growPopulationAfterIterations = 10000;
-			}
-			config.growPopulationSize = 5;
-			// Intensify always
-			config.intensificationProbabilityLS = 100;
-		}
-	}
-
-	
 	if (!isExplicitDistanceMatrix)
 	{
 		// Calculation of the distance matrix
@@ -448,38 +391,6 @@ Params::Params(const CommandLine& cl)
 				timeCost.set(j, i, cost);
 			}
 		}
-	}
-	
-
-	// Compute order proximities once
-	orderProximities = std::vector<std::vector<std::pair<double, int>>>(nbClients + 1);
-	// Loop over all clients (excluding the depot)
-	for (int i = 1; i <= nbClients; i++)
-	{
-		// Remove all elements from the vector
-		auto& orderProximity = orderProximities[i];
-		orderProximity.clear();
-
-		// Loop over all clients (excluding the depot and the specific client itself)
-		for (int j = 1; j <= nbClients; j++)
-		{
-			if (i != j)
-			{
-				// Compute proximity using Eq. 4 in Vidal 2012, and append at the end of orderProximity
-				const int timeIJ = timeCost.get(i, j);
-				orderProximity.emplace_back(
-					timeIJ
-					+ std::min(
-						proximityWeightWaitTime * std::max(cli[j].earliestArrival - timeIJ - cli[i].serviceDuration - cli[i].latestArrival, 0)
-						+ proximityWeightTimeWarp * std::max(cli[i].earliestArrival + cli[i].serviceDuration + timeIJ - cli[j].latestArrival, 0),
-						proximityWeightWaitTime * std::max(cli[i].earliestArrival - timeIJ - cli[j].serviceDuration - cli[j].latestArrival, 0)
-						+ proximityWeightTimeWarp * std::max(cli[j].earliestArrival + cli[j].serviceDuration + timeIJ - cli[i].latestArrival, 0)),
-					j);
-			}
-		}
-		
-		// Sort orderProximity (for the specific client)
-		std::sort(orderProximity.begin(), orderProximity.end());
 	}
 
 	// Calculate, for all vertices, the correlation for the nbGranular closest vertices
@@ -511,6 +422,109 @@ Params::Params(const CommandLine& cl)
 	proximityWeightTimeWarp = 1;
 }
 
+Params::Params(Config &config,
+               std::vector<std::pair<int, int>> const &coords,
+               std::vector<int> const &demands,
+               int vehicleCap,
+               std::vector<std::pair<int, int>> const &timeWindows,
+               std::vector<int> const &servDurs,
+               std::vector<std::vector<int>> const &distMat,
+               std::vector<int> const &releases)
+    : config(config), nbClients(coords.size() - 1), vehicleCapacity(vehicleCap),
+      maxDist(0)
+{
+    // Read and create some parameter values from the commandline
+    nbVehicles = config.nbVeh;
+    rng = XorShift128(config.seed);
+    startWallClockTime = std::chrono::system_clock::now();
+    startCPUTime = std::clock();
+
+    // Convert the circle sector parameters from degrees ([0,359]) to [0,65535] to allow for faster calculations
+    circleSectorOverlapTolerance = static_cast<int>(config.circleSectorOverlapToleranceDegrees / 360. * 65536);
+    minCircleSectorSize = static_cast<int>(config.minCircleSectorSizeDegrees / 360. * 65536);
+    durationLimit = INT_MAX;
+    isDurationConstraint = false;
+    isTimeWindowConstraint = true;
+    isExplicitDistanceMatrix = true;
+
+    totalDemand = std::accumulate(demands.begin(), demands.end(), 0);
+    maxDemand = *std::max_element(demands.begin(), demands.end());
+
+    if (config.isDimacsRun || config.useDynamicParameters)
+        setDynamicParameters();
+
+    // Number of vehicles: 30% above LP bin packing heuristic, and three more
+    // just in case.
+    auto const vehicleMargin = std::ceil(1.3 * totalDemand / vehicleCapacity);
+    nbVehicles = static_cast<int>(vehicleMargin) + 3;
+
+    timeCost = Matrix(distMat.size());
+
+    for (size_t i = 0; i != distMat.size(); ++i)
+        for (size_t j = 0; j != distMat[i].size(); ++j)
+        {
+            timeCost.set(i, j, distMat[i][j]);
+            if (distMat[i][j] > maxDist)
+                maxDist = distMat[i][j];
+        }
+
+    // A reasonable scale for the initial values of the penalties
+    penaltyCapacity = std::max(
+        0.1, std::min(1000., static_cast<double>(maxDist) / maxDemand));
+
+    // Initial parameter values of these two parameters are not argued
+    penaltyWaitTime = 0.;
+    penaltyTimeWarp = config.initialTimeWarpPenalty;
+
+    // See Vidal 2012, HGS for VRPTW
+    proximityWeightWaitTime = 0.2;
+    proximityWeightTimeWarp = 1;
+
+    cli = std::vector<Client>(nbClients + 1);
+
+    for (size_t idx = 0; idx <= static_cast<size_t>(nbClients); ++idx)
+    {
+        auto const angle = CircleSector::positive_mod(
+            static_cast<int>(32768.
+                             * atan2(cli[nbClients].coordY - coords[idx].second,
+                                     cli[nbClients].coordX - coords[idx].first)
+                             / M_PI));
+
+        cli[idx] = {static_cast<int>(idx + 1),
+                        coords[idx].first,
+                        coords[idx].second,
+                        servDurs[idx],
+                        demands[idx],
+                        timeWindows[idx].first,
+                        timeWindows[idx].second,
+                        releases[idx],
+                        angle};
+    }
+
+    // Safeguards to avoid possible numerical instability in case of instances
+    // containing arbitrarily small or large numerical values
+    if (maxDist < 0.1 || maxDist > 100000)
+    {
+        throw std::runtime_error(
+            "The distances are of very small or large scale. This could impact "
+            "numerical stability. Please rescale the dataset and run again.");
+    }
+    if (maxDemand < 0.1 || maxDemand > 100000)
+    {
+        throw std::runtime_error(
+            "The demand quantities are of very small or large scale. This "
+            "could impact numerical stability. Please rescale the dataset and "
+            "run again.");
+    }
+    if (nbVehicles < std::ceil(totalDemand / vehicleCapacity))
+    {
+        throw std::runtime_error(
+            "Fleet size is insufficient to service the considered clients.");
+    }
+
+    SetCorrelatedVertices();
+}
+
 double Params::getTimeElapsedSeconds(){
 	if (config.useWallClockTime)
 	{
@@ -524,7 +538,39 @@ bool Params::isTimeLimitExceeded(){
 	return getTimeElapsedSeconds() >= config.timeLimit;
 }
 
-void Params::SetCorrelatedVertices(){
+void Params::SetCorrelatedVertices()
+{
+  	// Compute order proximities once
+	orderProximities = std::vector<std::vector<std::pair<double, int>>>(nbClients + 1);
+	// Loop over all clients (excluding the depot)
+	for (int i = 1; i <= nbClients; i++)
+	{
+		// Remove all elements from the vector
+		auto& orderProximity = orderProximities[i];
+		orderProximity.clear();
+
+		// Loop over all clients (excluding the depot and the specific client itself)
+		for (int j = 1; j <= nbClients; j++)
+		{
+			if (i != j)
+			{
+				// Compute proximity using Eq. 4 in Vidal 2012, and append at the end of orderProximity
+				const int timeIJ = timeCost.get(i, j);
+				orderProximity.emplace_back(
+					timeIJ
+					+ std::min(
+						proximityWeightWaitTime * std::max(cli[j].earliestArrival - timeIJ - cli[i].serviceDuration - cli[i].latestArrival, 0)
+						+ proximityWeightTimeWarp * std::max(cli[i].earliestArrival + cli[i].serviceDuration + timeIJ - cli[j].latestArrival, 0),
+						proximityWeightWaitTime * std::max(cli[i].earliestArrival - timeIJ - cli[j].serviceDuration - cli[j].latestArrival, 0)
+						+ proximityWeightTimeWarp * std::max(cli[j].earliestArrival + cli[j].serviceDuration + timeIJ - cli[i].latestArrival, 0)),
+					j);
+			}
+		}
+
+		// Sort orderProximity (for the specific client)
+		std::sort(orderProximity.begin(), orderProximity.end());
+	}
+
 	// Calculation of the correlated vertices for each client (for the granular restriction)
 	correlatedVertices = std::vector<std::vector<int>>(nbClients + 1);
 
@@ -560,4 +606,65 @@ void Params::SetCorrelatedVertices(){
 			correlatedVertices[i].push_back(x);
 		}
 	}
+}
+
+void Params::setDynamicParameters()
+{
+    // Determine categories of instances based on number of stops/route and
+    // whether it has large time windows Calculate an upper bound for the number
+    // of stops per route based on capacities
+    double stopsPerRoute = vehicleCapacity / (totalDemand / nbClients);
+    // Routes are large when more than 25 stops per route
+    bool hasLargeRoutes = stopsPerRoute > 25;
+    // Get the time horizon (by using the time window of the depot)
+    int horizon = cli[0].latestArrival - cli[0].earliestArrival;
+    int nbLargeTW = 0;
+
+    // Loop over all clients (excluding the depot) and count the amount of large
+    // time windows (greater than 0.7*horizon)
+    for (int i = 1; i <= nbClients; i++)
+    {
+        if (cli[i].latestArrival - cli[i].earliestArrival > 0.7 * horizon)
+        {
+            nbLargeTW++;
+        }
+    }
+    // Output if an instance has large routes and a large time window
+    bool hasLargeTW = nbLargeTW > 0;
+    std::cout << "----- HasLargeRoutes: " << hasLargeRoutes
+              << ", HasLargeTW: " << hasLargeTW << std::endl;
+
+    // Set the parameter values based on the characteristics of the instance
+    if (hasLargeRoutes)
+    {
+        config.nbGranular = 40;
+        // Grow neighborhood and population size
+        config.growNbGranularAfterIterations = 10000;
+        config.growNbGranularSize = 5;
+        config.growPopulationAfterIterations = 10000;
+        config.growPopulationSize = 5;
+        // Intensify occasionally
+        config.intensificationProbabilityLS = 15;
+    }
+    else
+    {
+        // Grow population size only
+        // config.growNbGranularAfterIterations = 10000;
+        // config.growNbGranularSize = 5;
+        if (hasLargeTW)
+        {
+            // Smaller neighbourhood so iterations are faster
+            // So take more iterations before growing population
+            config.nbGranular = 20;
+            config.growPopulationAfterIterations = 20000;
+        }
+        else
+        {
+            config.nbGranular = 40;
+            config.growPopulationAfterIterations = 10000;
+        }
+        config.growPopulationSize = 5;
+        // Intensify always
+        config.intensificationProbabilityLS = 100;
+    }
 }
