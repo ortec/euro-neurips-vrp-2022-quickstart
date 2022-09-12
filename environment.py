@@ -102,7 +102,7 @@ class VRPEnvironment(Environment):
         self.seed = seed if seed is not None else self.default_seed
         self.epoch_tlim = epoch_tlim if epoch_tlim is not None else self.default_epoch_tlim
         self.is_static = is_static if is_static is not None else self.default_is_static
-        
+
         assert self.instance is not None
 
         if self.is_static:
@@ -129,7 +129,7 @@ class VRPEnvironment(Environment):
 
         self.is_done = False
         obs = self._next_observation()
-        
+
         self.final_solutions = {}
         self.final_costs = {}
         self.start_time_epoch = time.time()
@@ -177,7 +177,7 @@ class VRPEnvironment(Environment):
 
         observation = self._next_observation() if not self.is_done else None
         reward = -driving_duration
-        
+
         self.start_time_epoch = time.time()
         return (observation, reward, self.is_done, {'error': None})
 
@@ -271,7 +271,7 @@ class VRPEnvironment(Environment):
         customer_idx = self.request_customer_index[idx_undispatched]
         # Return a VRPTW instance with undispatched requests with two additional properties: customer_idx and request_idx
         time_windows = self.request_timewi[idx_undispatched]
-        
+
         # Renormalize time to start at planning_starttime, and clip time windows in the past (so depot will start at 0)
         time_windows = np.clip(time_windows - planning_starttime, a_min=0, a_max=None)
         self.epoch_instance = {

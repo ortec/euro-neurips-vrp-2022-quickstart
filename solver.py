@@ -6,11 +6,11 @@ import os
 import uuid
 import platform
 import numpy as np
+import functools
 
 import tools
 from environment import VRPEnvironment, ControllerEnvironment
 from baselines.strategies import STRATEGIES
-
 
 def solve_static_vrptw(instance, time_limit=3600, tmp_dir="tmp", seed=1, initial_solution=None):
 
@@ -29,7 +29,7 @@ def solve_static_vrptw(instance, time_limit=3600, tmp_dir="tmp", seed=1, initial
     os.makedirs(tmp_dir, exist_ok=True)
     instance_filename = os.path.join(tmp_dir, "problem.vrptw")
     tools.write_vrplib(instance_filename, instance, is_vrptw=True)
-    
+
     executable = os.path.join('baselines', 'hgs_vrptw', 'genvrp')
     # On windows, we may have genvrp.exe
     if platform.system() == 'Windows' and os.path.isfile(executable + '.exe'):
@@ -37,10 +37,13 @@ def solve_static_vrptw(instance, time_limit=3600, tmp_dir="tmp", seed=1, initial
     assert os.path.isfile(executable), f"HGS executable {executable} does not exist!"
     # Call HGS solver with unlimited number of vehicles allowed and parse outputs
     # Subtract two seconds from the time limit to account for writing of the instance and delay in enforcing the time limit by HGS
+
     hgs_cmd = [
-        executable, instance_filename, str(max(time_limit - 2, 1)), 
+        executable, instance_filename, str(max(time_limit - 2, 1)),
         '-seed', str(seed), '-veh', '-1', '-useWallClockTime', '1'
     ]
+    if initial_solution is None:
+        initial_solution = [[i] for i in range(1, instance['coords'].shape[0])]
     if initial_solution is not None:
         hgs_cmd += ['-initialSolution', " ".join(map(str, tools.to_giant_tour(initial_solution)))]
     with subprocess.Popen(hgs_cmd, stdout=subprocess.PIPE, text=True) as p:
@@ -93,11 +96,13 @@ def run_oracle(args, env):
     return total_reward
 
 
-def run_baseline(args, env, oracle_solution=None, strategy=None):
+def run_baseline(args, env, oracle_solution=None, strategy=None, seed=None):
 
     strategy = strategy or args.strategy
+    strategy = STRATEGIES[strategy] if isinstance(strategy, str) else strategy
+    seed = seed or args.solver_seed
 
-    rng = np.random.default_rng(args.solver_seed)
+    rng = np.random.default_rng(seed)
 
     total_reward = 0
     done = False
@@ -114,15 +119,14 @@ def run_baseline(args, env, oracle_solution=None, strategy=None):
             num_new_requests = num_requests_open - num_requests_postponed
             log(f" | Requests: +{num_new_requests:3d} = {num_requests_open:3d}, {epoch_instance['must_dispatch'].sum():3d}/{num_requests_open:3d} must-go...", newline=False, flush=True)
 
-        
         if oracle_solution is not None:
             request_idx = set(epoch_instance['request_idx'])
             epoch_solution = [route for route in oracle_solution if len(request_idx.intersection(route)) == len(route)]
             cost = tools.validate_dynamic_epoch_solution(epoch_instance, epoch_solution)
         else:
             # Select the requests to dispatch using the strategy
-            # TODO improved better strategy (machine learning model?) to decide which non-must requests to dispatch
-            epoch_instance_dispatch = STRATEGIES[strategy](epoch_instance, rng)
+            # Note: DQN strategy requires more than just epoch instance, bit hacky for compatibility with other strategies
+            epoch_instance_dispatch = strategy({**epoch_instance, 'observation': observation, 'static_info': static_info}, rng)
 
             # Run HGS with time limit and get last solution (= best solution found)
             # Note we use the same solver_seed in each epoch: this is sufficient as for the static problem
@@ -133,7 +137,7 @@ def run_baseline(args, env, oracle_solution=None, strategy=None):
 
             # Map HGS solution to indices of corresponding requests
             epoch_solution = [epoch_instance_dispatch['request_idx'][route] for route in epoch_solution]
-        
+
         if args.verbose:
             num_requests_dispatched = sum([len(route) for route in epoch_solution])
             num_requests_open = len(epoch_instance['request_idx']) - 1
@@ -144,7 +148,7 @@ def run_baseline(args, env, oracle_solution=None, strategy=None):
         observation, reward, done, info = env.step(epoch_solution)
         assert cost is None or reward == -cost, "Reward should be negative cost of solution"
         assert not info['error'], f"Environment error: {info['error']}"
-        
+
         total_reward += reward
 
     if args.verbose:
@@ -163,7 +167,7 @@ def log(obj, newline=True, flush=False):
 
 
 if __name__ == "__main__":
-    
+
     parser = argparse.ArgumentParser()
     parser.add_argument("--strategy", type=str, default='greedy', help="Baseline strategy used to decide whether to dispatch routes")
     # Note: these arguments are only for convenience during development, during testing you should use controller.py
@@ -174,6 +178,7 @@ if __name__ == "__main__":
     parser.add_argument("--epoch_tlim", type=int, default=120, help="Time limit per epoch")
     parser.add_argument("--oracle_tlim", type=int, default=120, help="Time limit for oracle")
     parser.add_argument("--tmp_dir", type=str, default=None, help="Provide a specific directory to use as tmp directory (useful for debugging)")
+    parser.add_argument("--model_path", type=str, default=None, help="Provide the path of the machine learning model to be used as strategy (Path must not contain `model.pth`)")
     parser.add_argument("--verbose", action='store_true', help="Show verbose output")
     args = parser.parse_args()
 
@@ -202,7 +207,18 @@ if __name__ == "__main__":
         if args.strategy == 'oracle':
             run_oracle(args, env)
         else:
-            run_baseline(args, env)
+            if args.strategy == 'supervised':
+                from baselines.supervised.utils import load_model
+                net = load_model(args.model_path, device='cpu')
+                strategy = functools.partial(STRATEGIES['supervised'], net=net)
+            elif args.strategy == 'dqn':
+                from baselines.dqn.utils import load_model
+                net = load_model(args.model_path, device='cpu')
+                strategy = functools.partial(STRATEGIES['dqn'], net=net)
+            else:
+                strategy = STRATEGIES[args.strategy]
+
+            run_baseline(args, env, strategy=strategy)
 
         if args.instance is not None:
             log(tools.json_dumps_np(env.final_solutions))

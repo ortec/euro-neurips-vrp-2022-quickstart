@@ -1,0 +1,5 @@
+{
+  "num_inputs": 3,
+  "num_hiddens": 64,
+  "num_outputs": 2
+}
