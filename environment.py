@@ -236,11 +236,13 @@ class VRPEnvironment(Environment):
         service_t_idx = sample_from_customers()
 
         new_request_timewi = self.instance['time_windows'][timewi_idx]
-
         # Filter data that can no longer be delivered
         # Time + margin for dispatch + drive time from depot should not exceed latest arrival
-        is_feasible = planning_starttime + duration_matrix[0, cust_idx] <= new_request_timewi[:, 1]
-
+        earliest_arrival = np.maximum(planning_starttime + duration_matrix[0, cust_idx], new_request_timewi[:, 0])
+        # Also, return at depot in time must be feasible
+        earliest_return_at_depot = earliest_arrival + self.instance['service_times'][service_t_idx] + duration_matrix[cust_idx, 0]
+        is_feasible = (earliest_arrival <= new_request_timewi[:, 1]) & (earliest_return_at_depot <= self.instance['time_windows'][0, 1])
+        
         if is_feasible.any():
             num_new_requests = is_feasible.sum()
             self.request_id = np.concatenate((self.request_id, np.arange(num_new_requests) + len(self.request_id)))
@@ -253,9 +255,14 @@ class VRPEnvironment(Environment):
 
         # Customers must dispatch this epoch if next epoch they will be too late
         if self.current_epoch < self.end_epoch:
+            earliest_arrival = np.maximum(
+                planning_starttime + self.EPOCH_DURATION + duration_matrix[0, self.request_customer_index],
+                self.request_timewi[:, 0]
+            )
+            earliest_return_at_depot = earliest_arrival + self.request_service_t + duration_matrix[self.request_customer_index, 0]
             self.request_must_dispatch = (
-                planning_starttime + self.EPOCH_DURATION +
-                duration_matrix[0, self.request_customer_index] > self.request_timewi[:, 1]
+                (earliest_arrival > self.request_timewi[:, 1]) |
+                (earliest_return_at_depot > self.instance['time_windows'][0, 1])
             )
         else:
             self.request_must_dispatch = self.request_id > 0

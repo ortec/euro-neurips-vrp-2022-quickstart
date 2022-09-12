@@ -11,7 +11,7 @@ The complete description of the problem setting is provided on the [main webpage
 This repository provides all the necessary code to start the competition. It includes a simple baseline method based on HGS-VRPTW as a static solver, along with examples of the use of the controller code designed to evaluate the algorithms.
 
 # Stay updated!
-Note: we will keep updating this repository with additional baselines, tools, information about code submission etc. to help you get most out of this competition! To stay updated, check back regularly, [follow us on Twitter](https://twitter.com/EuroNeuripsVRP) and join the [Slack workspace](https://join.slack.com/t/euro-neurips-vrp-2022/shared_invite/zt-1bfifn8ye-~azqWWXts1cR0YVURZNBmw), which is also the place to ask questions! Don't forget to [register your team](https://euro-neurips-vrp-2022.challenges.ortec.com/#registration)!
+Note: we will keep updating this repository with additional baselines, tools, information about code submission etc. to help you get most out of this competition! To stay updated, check back regularly, [follow us on Twitter](https://twitter.com/EuroNeuripsVRP) and join the [Slack workspace](https://join.slack.com/t/euro-neurips-vrp-2022/shared_invite/zt-1dldr119v-lV7FMmuxhRdkfXr07Mzgfw), which is also the place to ask questions! Don't forget to [register your team](https://euro-neurips-vrp-2022.challenges.ortec.com/#registration)!
 
 # Installation
 
@@ -103,7 +103,6 @@ READ THESE INSTUCTIONS CAREFULLY. Every team must register their team on CodaLab
 * Note: Teams with multiple accounts or missing or unregistered team names will be removed from the competition!
 
 ## 2. Create a submission zip file
-
 To submit your solver, you must package everything that is needed in a zip file and submit it using the [CodaLab Competition](https://codalab.lisn.upsaclay.fr/competitions/6627) platform. The following files are required in the root of the zip file:
 * `metadata`: this file should be include to indicate a code submission. There is no need to change it.
 * `install.sh`: (optional) script to compile your solver and/or install required dependencies *through pip*. This will be executed once for each submission.
@@ -122,14 +121,14 @@ Note that you can include `environment.py`, `tools.py` etc. in your submission, 
 * If your submission fails, you can use the output/error files to troubleshout your submission. Most likely, errors will be in the 'ingestion error log' (the ingestion step runs your submission).
 * If there are any problems, you may also try to run your submission locally inside the Singularity/Apptainer computational environment (see below).
 * Note that processing time of your submission may vary depending on the availability of the compute workers and submission load. If your submission does not show status 'running' within a few hours, it may help to submit an extra test submission to trigger a compute worker.
-* Contact us on [Slack](https://join.slack.com/t/euro-neurips-vrp-2022/shared_invite/zt-1bfifn8ye-~azqWWXts1cR0YVURZNBmw) if you are unable to solve your problem.
+* Contact us on [Slack](https://join.slack.com/t/euro-neurips-vrp-2022/shared_invite/zt-1dldr119v-lV7FMmuxhRdkfXr07Mzgfw) if you are unable to solve your problem.
 
 The competition has three 'phases':
 * The *test* 'phase' is not really a phase (it overlaps the other phases) but can be used to test if your solver can be evaluated correctly by the CodaLab platform. It will install your solver and test it using a single static and a dynamic instance with a short time limit. The standard output/error of the install script, and the controller running your solver can be inspected to troubleshout problems. 
 * The *qualification* phase is were you should submit your final solver, AFTER it has succesfully been evaluated in the test phase. You can make a submission *at most once per day* (therefore, first test your submission using the test phase). Your best submission will be visible on the leaderboard. Your last submission of this phase will be used for final evaluation, if you are within the top 10 on the leaderboard on October 31st. Important: while the leaderboard shows your BEST submission, your LAST submission will be used in the final phase. Make sure to submit your final solution before the deadline (October 31st).
 * The *final (hidden)* phase is hidden. The top 10 solutions from the qualification phase will be automatically evaluated during this phase. It is NOT possible to provide a new submission.
 
-For more details about the phases (time limits etc.), read the [rules](https://euro-neurips-vrp-2022.challenges.ortec.com/#rules) document.
+For more details about the phases (time limits etc.), read the [rules](https://euro-neurips-vrp-2022.challenges.ortec.com/#rules) document. To encourage active participation on the public leaderboard, prizes will be awarded to the number 1/2/3 on the leaderboard every week. For more info, see the [prizes](https://euro-neurips-vrp-2022.challenges.ortec.com/#prizes).
 
 Important: the code submission platform will compute two ranks for all solvers: one based on the average performance (minimizing total route driving duration) on the static variant, and one based on the average performance on the dynamic variant. It is NOT possible to submit a solver for just one of the variants. The overall rank will be determined by the average of the rank for the static variant and the dynamic variant (with the overal average performance as tie-braker), so you should make sure your solver performs well for both problem variants.
 
@@ -146,7 +145,7 @@ To test your submission locally in the same environment, you can install [Apptai
 For Windows/Mac you need an Ubuntu virtual machine (VM), see [here](https://apptainer.org/docs/admin/main/installation.html#installation-on-windows-or-mac). Inside the VM you can use the steps above (which are simpler than the official installation instructions).
 
 ### Use of commercial software
-Note: it is your responsibility to ensure appropriate licenses such that your solver can run on the code submission platform. If you want to use a commercial MIP solver, we recommend using [Gurobi](https://www.gurobi.com/), which has agreed to provide licenses for the code submission platform (this is NOT available yet). If you require a Gurobi license for developing your solver (and you cannot use an [academic license](https://www.gurobi.com/academia/academic-program-and-licenses/)), contact us or [request an evaluation license](https://www.gurobi.com/downloads/request-an-evaluation-license/). Contact us on [Slack](https://join.slack.com/t/euro-neurips-vrp-2022/shared_invite/zt-1bfifn8ye-~azqWWXts1cR0YVURZNBmw) if you have questions about using commercial software.
+Note: it is your responsibility to ensure appropriate licenses such that your solver can run on the code submission platform. If you want to use a commercial MIP solver, we recommend using [Gurobi](https://www.gurobi.com/), which has agreed to provide licenses for the code submission platform (this is NOT available yet). If you require a Gurobi license for developing your solver (and you cannot use an [academic license](https://www.gurobi.com/academia/academic-program-and-licenses/)), contact us or [request an evaluation license](https://www.gurobi.com/downloads/request-an-evaluation-license/). Contact us on [Slack](https://join.slack.com/t/euro-neurips-vrp-2022/shared_invite/zt-1dldr119v-lV7FMmuxhRdkfXr07Mzgfw) if you have questions about using commercial software.
 
 # Possible ideas
 To encourage participation in the competition, we provide some suggestions on various ways to participate in this competition using machine learning techniques.

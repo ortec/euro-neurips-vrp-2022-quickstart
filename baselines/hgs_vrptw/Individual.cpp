@@ -177,7 +177,7 @@ void Individual::exportCVRPLibFormat(std::string fileName)
 				myfile << std::endl;
 			}
 		}
-		myfile << "Cost " << myCostSol.penalizedCost << std::endl;
+		myfile << "Cost " << (int) myCostSol.penalizedCost << std::endl;
 		myfile << "Time " << params->getTimeElapsedSeconds() << std::endl;
 	}
 	else std::cout << "----- IMPOSSIBLE TO OPEN: " << fileName << std::endl;
@@ -198,7 +198,7 @@ void Individual::printCVRPLibFormat()
 			std::cout << std::endl;
 		}
 	}
-	std::cout << "Cost " << myCostSol.penalizedCost << std::endl;
+	std::cout << "Cost " << (int) myCostSol.penalizedCost << std::endl;
 	std::cout << "Time " << params->getTimeElapsedSeconds() << std::endl;
 	fflush(stdout);
 }
