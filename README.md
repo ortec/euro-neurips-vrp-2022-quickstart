@@ -13,6 +13,14 @@ This repository provides all the necessary code to start the competition. It inc
 # Stay updated!
 Note: we will keep updating this repository with additional baselines, tools, information about code submission etc. to help you get most out of this competition! To stay updated, check back regularly, [follow us on Twitter](https://twitter.com/EuroNeuripsVRP) and join the [Slack workspace](https://join.slack.com/t/euro-neurips-vrp-2022/shared_invite/zt-1dldr119v-lV7FMmuxhRdkfXr07Mzgfw), which is also the place to ask questions! Don't forget to [register your team](https://euro-neurips-vrp-2022.challenges.ortec.com/#registration)!
 
+# Clone repository
+To clone the repo and get [pybind11](https://pybind11.readthedocs.io/) (used for Python bindings), use:
+```
+git clone https://github.com/ortec/euro-neurips-vrp-2022-quickstart.git
+git submodule init
+git submodule update
+```
+
 # Installation
 
 The evaluation scripts are provided in Python, and the baseline solver (HGS-VRPTW) is implemented in C++.
