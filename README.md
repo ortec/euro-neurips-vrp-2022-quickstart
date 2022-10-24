@@ -199,3 +199,12 @@ To encourage participation in the competition, we provide some suggestions on va
 * Learn end-to-end approaches to solve the dynamic problem:
     * For example based on [the attention model](https://arxiv.org/abs/1803.08475)
     * ...
+
+# Acknowledgements
+* Original [HGS-CVRP](https://github.com/vidalt/HGS-CVRP) code (awesome!): Thibaut Vidal
+* Additional contributions to HGS-CVRP, resulting in HGS-VRPTW (DIMACS VRPTW winning solver): Wouter Kool, Joep Olde Juninck, Ernst Roos, Kamiel Cornelissen, Pim Agterberg, Jelke van Hoorn, Thomas Visser
+* Quickstart repository: Wouter Kool, Danilo Numeroso, Abdo Abouelrous, Robbert Reijnen
+* Codalab submission system: Wouter Kool, Tom Catshoek
+
+# License
+The data ([instances](instances)) is licensed under [CC BY-NC 4.0](http://creativecommons.org/licenses/by-nc/4.0/) and the code under MIT. See also [LICENSE](LICENSE).
