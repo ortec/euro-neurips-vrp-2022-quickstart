@@ -106,7 +106,7 @@ class DQNAgent:
 
         # epsilon greedy policy
         if self.dqn.training and self.epsilon > self.rng.random():
-            selected_action = self.rng.integers(0, 2 - 1)
+            selected_action = self.rng.integers(0, 2)
         else:
             selected_action = self.dqn(
                 torch.FloatTensor(state).to(self.device),
