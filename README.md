@@ -13,6 +13,9 @@ This repository provides all the necessary code to start the competition. It inc
 # Stay updated!
 Note: we will keep updating this repository with additional baselines, tools, information about code submission etc. to help you get most out of this competition! To stay updated, check back regularly, [follow us on Twitter](https://twitter.com/EuroNeuripsVRP) and join the [Slack workspace](https://join.slack.com/t/euro-neurips-vrp-2022/shared_invite/zt-1dldr119v-lV7FMmuxhRdkfXr07Mzgfw), which is also the place to ask questions! Don't forget to [register your team](https://euro-neurips-vrp-2022.challenges.ortec.com/#registration)!
 
+# New: notebook with plotting tools and Python bindings tutorial
+The repository contains [a tutorial notebook](python_hgs_nn_tutorial.ipynb) that shows how to create a custom version of the Hybrid Genetic Search algorithm in Python that uses a neural network. Additionally it contains some solution plotting tools! As the repository contains a precompiled HGS library for Python 3.7 on Linux, you can directly [run the Notebook on Colab](https://colab.research.google.com/drive/1S4r_6lMfVwtuL73CJm09TNfRCfGuLZcY?usp=sharing).
+
 # Clone repository
 To clone the repo and get [pybind11](https://pybind11.readthedocs.io/) (used for Python bindings), use:
 ```
