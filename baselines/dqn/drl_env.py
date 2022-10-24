@@ -40,9 +40,6 @@ class DRLEnv(gym.Env):
         self.action_space = gym.spaces.Discrete(2)
         self.observation_space = gym.spaces.Box(shape=(5,), low=-_BIG_NUMBER, high=_BIG_NUMBER, dtype=np.float64)
 
-        self.solver_tmp_dir = os.path.join(self.config['ckpt_dir'], "tmp")
-        os.makedirs(self.solver_tmp_dir, exist_ok=True)
-
     def make_state(self):
         return np.concatenate((self.request_features[self.counter], self.global_features))
 
@@ -85,8 +82,7 @@ class DRLEnv(gym.Env):
 
         # get route with solver
         solutions = list(solve_static_vrptw(
-            epoch_instance_dispatch, time_limit=self.epoch_tlim, seed=self.seed, 
-            tmp_dir=self.solver_tmp_dir))
+            epoch_instance_dispatch, time_limit=self.epoch_tlim, seed=self.seed))
 
         assert len(solutions) > 0, f"No solution found during epoch {self.instance_observation['current_epoch']}"
         epoch_solution, cost = solutions[-1]

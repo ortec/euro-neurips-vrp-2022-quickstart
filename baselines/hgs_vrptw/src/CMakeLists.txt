@@ -18,6 +18,9 @@ set(populationSources
 set(splitSources
         Split.cpp)
 
+set(crossoverSources
+        Crossover.cpp)
+
 # (Internal) library
 add_library(hgs
         ${geneticSources}
@@ -25,7 +28,8 @@ add_library(hgs
         ${localSearchSources}
         ${paramsSources}
         ${populationSources}
-        ${splitSources})
+        ${splitSources}
+        ${crossoverSources})
 
 # Executable
 add_executable(genvrp main.cpp)

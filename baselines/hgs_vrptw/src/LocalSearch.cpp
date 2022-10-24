@@ -1632,6 +1632,8 @@ void LocalSearch::exportIndividual(Individual* indiv)
 
 LocalSearch::LocalSearch(Params* params) : params(params)
 {
+	loopID = 0;
+	nbMoves = 0;
 	clients = std::vector < Node >(params->nbClients + 1);
 	routes = std::vector < Route >(params->nbVehicles);
 	depots = std::vector < Node >(params->nbVehicles);

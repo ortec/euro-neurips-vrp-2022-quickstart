@@ -1,18 +1,19 @@
 # Solver for Dynamic VRPTW, baseline strategy is to use the static solver HGS-VRPTW repeatedly
 import argparse
-import subprocess
 import sys
-import os
-import uuid
-import platform
 import numpy as np
 import functools
+import io
+from contextlib import nullcontext
+from wurlitzer import pipes
 
 import tools
 from environment import VRPEnvironment, ControllerEnvironment
 from baselines.strategies import STRATEGIES
+from baselines.hgs_vrptw import hgspy
 
-def solve_static_vrptw(instance, time_limit=3600, tmp_dir="tmp", seed=1, initial_solution=None):
+
+def solve_static_vrptw(instance, time_limit=3600, seed=1, initial_solution=None, verbose=False):
 
     # Prevent passing empty instances to the static solver, e.g. when
     # strategy decides to not dispatch any requests for the current epoch
@@ -26,26 +27,33 @@ def solve_static_vrptw(instance, time_limit=3600, tmp_dir="tmp", seed=1, initial
         yield solution, cost
         return
 
-    # TODO set 'where' to the path of your shared Python module (where that is
-    #   depends on your CMake configurations).
-    hgspy = tools.get_hgspy_module(where='release/lib/hgspy*.so')
+    if initial_solution is None:
+        initial_solution = [[i] for i in range(1, instance['coords'].shape[0])]
 
-    config = hgspy.Config(seed=seed, nbVeh=-1, timeLimit=max(time_limit - 1, 1))
-    params = hgspy.Params(config, **tools.inst_to_vars(instance))
-    split = hgspy.Split(params)
-    ls = hgspy.LocalSearch(params)
+    # Capture output by hgs (or forward to stderr if verbose)
+    out = io.StringIO()
+    with nullcontext() if verbose else pipes(stdout=out, stderr=sys.stderr):
+        config = hgspy.Config(
+            seed=seed, nbVeh=-1,
+            timeLimit=max(time_limit - 1, 1), useWallClockTime=True,
+            initialSolution=" ".join(map(str, tools.to_giant_tour(initial_solution))),
+            useDynamicParameters=True)
+        params = hgspy.Params(config, **tools.inst_to_vars(instance))    
+        split = hgspy.Split(params)
+        ls = hgspy.LocalSearch(params)
+        pop = hgspy.Population(params, split, ls)
+        algo = hgspy.Genetic(params, split, pop, ls)
+        algo.run()
+        best = pop.getBestFound()
 
-    pop = hgspy.Population(params, split, ls)
-    algo = hgspy.Genetic(params, split, pop, ls)
-    algo.run(maxIterNonProd=20_000, timeLimit=max(time_limit - 1, 1))  # TODO weird double argument
+        if not best:
+            raise ValueError("Expected a feasible solution; none found!")
 
-    best = pop.getBestFound()
-
-    if not best:
-        raise ValueError("Expected a feasible solution; none found!")
-
-    routes = [route for route in best.routes() if route]
-    cost = best.cost()
+        routes = best.routes
+        cost = int(best.cost)
+    
+    # We may get io.StringIO() captured output
+    out.getvalue()
 
     assert np.isclose(tools.validate_static_solution(instance, routes), cost)
 
@@ -68,7 +76,7 @@ def run_oracle(args, env):
 
     # Compute oracle solution (separate time limit since epoch_tlim is used for greedy initial solution)
     log(f"Start computing oracle solution with {len(hindsight_problem['coords'])} requests...")
-    oracle_solution = min(solve_static_vrptw(hindsight_problem, time_limit=args.oracle_tlim, tmp_dir=args.tmp_dir, initial_solution=greedy_solution), key=lambda x: x[1])[0]
+    oracle_solution = min(solve_static_vrptw(hindsight_problem, time_limit=args.oracle_tlim, initial_solution=greedy_solution), key=lambda x: x[1])[0]
     oracle_cost = tools.validate_static_solution(hindsight_problem, oracle_solution)
     log(f"Found oracle solution with cost {oracle_cost}")
 
@@ -113,7 +121,7 @@ def run_baseline(args, env, oracle_solution=None, strategy=None, seed=None):
             # Run HGS with time limit and get last solution (= best solution found)
             # Note we use the same solver_seed in each epoch: this is sufficient as for the static problem
             # we will exactly use the solver_seed whereas in the dynamic problem randomness is in the instance
-            solutions = list(solve_static_vrptw(epoch_instance_dispatch, time_limit=epoch_tlim, tmp_dir=args.tmp_dir, seed=args.solver_seed))
+            solutions = list(solve_static_vrptw(epoch_instance_dispatch, time_limit=epoch_tlim, seed=args.solver_seed))
             assert len(solutions) > 0, f"No solution found during epoch {observation['current_epoch']}"
             epoch_solution, cost = solutions[-1]
 
@@ -159,51 +167,42 @@ if __name__ == "__main__":
     parser.add_argument("--static", action='store_true', help="Add this flag to solve the static variant of the problem (by default dynamic)")
     parser.add_argument("--epoch_tlim", type=int, default=120, help="Time limit per epoch")
     parser.add_argument("--oracle_tlim", type=int, default=120, help="Time limit for oracle")
-    parser.add_argument("--tmp_dir", type=str, default=None, help="Provide a specific directory to use as tmp directory (useful for debugging)")
     parser.add_argument("--model_path", type=str, default=None, help="Provide the path of the machine learning model to be used as strategy (Path must not contain `model.pth`)")
     parser.add_argument("--verbose", action='store_true', help="Show verbose output")
+    parser.add_argument("--hgs_verbose", action='store_true', help="Show verbose output for HGS")
     args = parser.parse_args()
 
-    if args.tmp_dir is None:
-        # Generate random tmp directory
-        args.tmp_dir = os.path.join("tmp", str(uuid.uuid4()))
-        cleanup_tmp_dir = True
+    if args.hgs_verbose:
+        solve_static_vrptw = functools.partial(solve_static_vrptw, verbose=True)
+
+    if args.instance is not None:
+        env = VRPEnvironment(seed=args.instance_seed, instance=tools.read_vrplib(args.instance), epoch_tlim=args.epoch_tlim, is_static=args.static)
     else:
-        # If tmp dir is manually provided, don't clean it up (for debugging)
-        cleanup_tmp_dir = False
+        assert args.strategy != "oracle", "Oracle can not run with external controller"
+        # Run within external controller
+        env = ControllerEnvironment(sys.stdin, sys.stdout)
 
-    try:
-        if args.instance is not None:
-            env = VRPEnvironment(seed=args.instance_seed, instance=tools.read_vrplib(args.instance), epoch_tlim=args.epoch_tlim, is_static=args.static)
+    # Make sure these parameters are not used by your solver
+    args.instance = None
+    args.instance_seed = None
+    args.static = None
+    args.epoch_tlim = None
+
+    if args.strategy == 'oracle':
+        run_oracle(args, env)
+    else:
+        if args.strategy == 'supervised':
+            from baselines.supervised.utils import load_model
+            net = load_model(args.model_path, device='cpu')
+            strategy = functools.partial(STRATEGIES['supervised'], net=net)
+        elif args.strategy == 'dqn':
+            from baselines.dqn.utils import load_model
+            net = load_model(args.model_path, device='cpu')
+            strategy = functools.partial(STRATEGIES['dqn'], net=net)
         else:
-            assert args.strategy != "oracle", "Oracle can not run with external controller"
-            # Run within external controller
-            env = ControllerEnvironment(sys.stdin, sys.stdout)
+            strategy = STRATEGIES[args.strategy]
 
-        # Make sure these parameters are not used by your solver
-        args.instance = None
-        args.instance_seed = None
-        args.static = None
-        args.epoch_tlim = None
+        run_baseline(args, env, strategy=strategy)
 
-        if args.strategy == 'oracle':
-            run_oracle(args, env)
-        else:
-            if args.strategy == 'supervised':
-                from baselines.supervised.utils import load_model
-                net = load_model(args.model_path, device='cpu')
-                strategy = functools.partial(STRATEGIES['supervised'], net=net)
-            elif args.strategy == 'dqn':
-                from baselines.dqn.utils import load_model
-                net = load_model(args.model_path, device='cpu')
-                strategy = functools.partial(STRATEGIES['dqn'], net=net)
-            else:
-                strategy = STRATEGIES[args.strategy]
-
-            run_baseline(args, env, strategy=strategy)
-
-        if args.instance is not None:
-            log(tools.json_dumps_np(env.final_solutions))
-    finally:
-        if cleanup_tmp_dir:
-            tools.cleanup_tmp_dir(args.tmp_dir)
+    if args.instance is not None:
+        log(tools.json_dumps_np(env.final_solutions))

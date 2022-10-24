@@ -25,7 +25,7 @@ def run_oracle(args):
         greedy_solution = [route for epoch, routes in env.final_solutions.items() for route in routes]
         hindsight_problem = env.get_hindsight_problem()
 
-        oracle_solution = min(solve_static_vrptw(hindsight_problem, time_limit=args.oracle_tlim, tmp_dir=args.tmp_dir, initial_solution=greedy_solution),
+        oracle_solution = min(solve_static_vrptw(hindsight_problem, time_limit=args.oracle_tlim, initial_solution=greedy_solution),
                               key=lambda x: x[1])[0]
 
         observation, static_info = env.reset()
@@ -56,25 +56,11 @@ if __name__ == "__main__":
     parser.add_argument("--solver_seed", type=int, default=1, help="Seed to use for the solver")
     parser.add_argument("--epoch_tlim", type=int, default=120, help="Time limit per epoch")
     parser.add_argument("--oracle_tlim", type=int, default=120, help="Time limit for oracle")
-    parser.add_argument("--tmp_dir", type=str, default=None, help="Provide a specific directory to use as tmp directory (useful for debugging)")
     parser.add_argument("--verbose", action='store_true', help="Show verbose output")
     parser.add_argument("--data_dir", default='baselines/supervised/data')
 
     args = parser.parse_args()
-
-    if args.tmp_dir is None:
-        # Generate random tmp directory
-        args.tmp_dir = os.path.join("tmp", str(uuid.uuid4()))
-        cleanup_tmp_dir = True
-    else:
-        # If tmp dir is manually provided, don't clean it up (for debugging)
-        cleanup_tmp_dir = False
-    
     args.instance_seed = map(int, args.instance_seed.split(","))
 
-    try:
-        # Make sure these parameters are not used by your solver
-        run_oracle(args)
-    finally:
-        if cleanup_tmp_dir:
-            tools.cleanup_tmp_dir(args.tmp_dir)
+    # Make sure these parameters are not used by your solver
+    run_oracle(args)

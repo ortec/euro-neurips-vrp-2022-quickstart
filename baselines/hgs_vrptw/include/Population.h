@@ -73,11 +73,17 @@ public:
 	// Returns TRUE if a new best solution of the run has been found
 	bool addIndividual(const Individual* indiv, bool updateFeasible);
 
+	// Cleans all solutions (without generating new population)
+	void reset();
+
 	// Cleans all solutions and generates a new initial population (only used when running HGS until a time limit, in which case the algorithm restarts until the time limit is reached)
 	void restart();
 
 	// Adaptation of the penalty parameters (this also updates the evaluations)
 	void managePenalties();
+
+	// To update biased fitnesses which does not happen in realtime, should be called before using the biasedFitness property of an individual
+	void updateAllBiasedFitnesses();
 
 	// Selects an individal by binary tournament
 	Individual* getBinaryTournament();
@@ -93,6 +99,12 @@ public:
 
 	// Accesses the best found solution at all time. If not possible, return nullptr
 	Individual* getBestFound();
+
+	// Accesses individual by index
+	Individual* get(size_t index);
+
+	// Get number of individuals in the population
+	size_t size();
 
 	// Prints population state
 	void printState(int nbIter, int nbIterNoImprovement);

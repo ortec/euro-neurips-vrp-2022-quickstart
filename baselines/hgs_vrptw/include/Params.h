@@ -188,6 +188,9 @@ public:
 
 	// Calculate, for all vertices, the correlation for the nbGranular closest vertices
 	void SetCorrelatedVertices();
+
+	// Set correlated vertices explicitly
+	void SetCorrelatedVertices(std::vector<std::vector<int>> correlatedVertices);
 };
 
 #endif

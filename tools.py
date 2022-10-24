@@ -335,16 +335,6 @@ def write_vrplib(filename, instance, name="problem", euclidean=False, is_vrptw=T
         f.write("EOF\n")
 
 
-def get_hgspy_module(where: str):
-    lib_path = glob.glob(where)[0]
-    loader = importlib.machinery.ExtensionFileLoader('hgspy', lib_path)
-    spec = importlib.util.spec_from_loader(loader.name, loader)
-    hgspy = importlib.util.module_from_spec(spec)
-    loader.exec_module(hgspy)
-
-    return hgspy
-
-
 def inst_to_vars(inst):
     # Notice that the dictionary key names are not entirely free-form: these
     # should match the argument names defined in the C++/Python bindings.

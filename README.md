@@ -17,7 +17,7 @@ Note: we will keep updating this repository with additional baselines, tools, in
 
 The evaluation scripts are provided in Python, and the baseline solver (HGS-VRPTW) is implemented in C++.
 We recommend to create a virtual environment using `Python 3.8+` to run the codes. 
-Therefore, make sure that Python is installed, along with venv and a C++ compiler and make. On Windows, we recommend using [Visual Studio](https://visualstudio.microsoft.com/) or using [MinGW](https://sourceforge.net/projects/mingw/) and installing make through [Chocolatey](https://chocolatey.org/install) (run `choco install make` as administrator).
+Therefore, make sure that Python is installed, along with venv and a C++ compiler, cmake and make. On Windows, we recommend using [Visual Studio](https://visualstudio.microsoft.com/) or using [MinGW](https://sourceforge.net/projects/mingw/) and installing make through [Chocolatey](https://chocolatey.org/install) (run `choco install make` as administrator).
 Then, run the following commands (Linux or Mac OS):
 
 ```shell
@@ -203,7 +203,7 @@ To encourage participation in the competition, we provide some suggestions on va
 # Acknowledgements
 * Original [HGS-CVRP](https://github.com/vidalt/HGS-CVRP) code (awesome!): Thibaut Vidal
 * Additional contributions to HGS-CVRP, resulting in HGS-VRPTW (DIMACS VRPTW winning solver): Wouter Kool, Joep Olde Juninck, Ernst Roos, Kamiel Cornelissen, Pim Agterberg, Jelke van Hoorn, Thomas Visser
-* Quickstart repository: Wouter Kool, Danilo Numeroso, Abdo Abouelrous, Robbert Reijnen
+* Quickstart repository: Wouter Kool, Danilo Numeroso, Abdo Abouelrous, Robbert Reijnen (and participant Niels Wouda for CMAKE build and [Python Bindings](https://github.com/N-Wouda/euro-neurips-vrp-2022-quickstart/tree/python-bindings))
 * Codalab submission system: Wouter Kool, Tom Catshoek
 
 # License

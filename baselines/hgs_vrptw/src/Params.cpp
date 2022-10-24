@@ -361,8 +361,10 @@ Params::Params(const CommandLine& cl)
 		std::cout << "DIMACS RUN for instance name " << instanceName << ", writing solution to " << config.pathSolution << std::endl;
 	}
 
-        if (config.isDimacsRun || config.useDynamicParameters)
-            setDynamicParameters();
+	if (config.isDimacsRun || config.useDynamicParameters)
+	{
+		setDynamicParameters();
+	}       
 
 	if (!isExplicitDistanceMatrix)
 	{
@@ -393,9 +395,6 @@ Params::Params(const CommandLine& cl)
 		}
 	}
 
-	// Calculate, for all vertices, the correlation for the nbGranular closest vertices
-	SetCorrelatedVertices();
-
 	// Safeguards to avoid possible numerical instability in case of instances containing arbitrarily small or large numerical values
 	if (maxDist < 0.1 || maxDist > 100000)
 	{
@@ -420,6 +419,9 @@ Params::Params(const CommandLine& cl)
 	// See Vidal 2012, HGS for VRPTW
 	proximityWeightWaitTime = 0.2;
 	proximityWeightTimeWarp = 1;
+
+	// Calculate, for all vertices, the correlation for the nbGranular closest vertices
+	SetCorrelatedVertices();
 }
 
 Params::Params(Config &config,
@@ -450,14 +452,18 @@ Params::Params(Config &config,
     totalDemand = std::accumulate(demands.begin(), demands.end(), 0);
     maxDemand = *std::max_element(demands.begin(), demands.end());
 
-    if (config.isDimacsRun || config.useDynamicParameters)
-        setDynamicParameters();
-
-    // Number of vehicles: 30% above LP bin packing heuristic, and three more
-    // just in case.
-    auto const vehicleMargin = std::ceil(1.3 * totalDemand / vehicleCapacity);
-    nbVehicles = static_cast<int>(vehicleMargin) + 3;
-
+	if (nbVehicles == INT_MAX)
+	{
+		// Number of vehicles: 30% above LP bin packing heuristic, and three more
+		// just in case.
+		auto const vehicleMargin = std::ceil(1.3 * totalDemand / vehicleCapacity);
+		nbVehicles = static_cast<int>(vehicleMargin) + 3;
+	}
+	else if (nbVehicles == -1)
+	{
+		nbVehicles = nbClients;
+	}
+    
     timeCost = Matrix(distMat.size());
 
     for (size_t i = 0; i != distMat.size(); ++i)
@@ -484,10 +490,10 @@ Params::Params(Config &config,
 
     for (size_t idx = 0; idx <= static_cast<size_t>(nbClients); ++idx)
     {
-        auto const angle = CircleSector::positive_mod(
+		auto const angle = CircleSector::positive_mod(
             static_cast<int>(32768.
-                             * atan2(cli[nbClients].coordY - coords[idx].second,
-                                     cli[nbClients].coordX - coords[idx].first)
+                             * atan2(coords[idx].second - coords[0].second,
+                                     coords[idx].first - coords[0].first)
                              / M_PI));
 
         cli[idx] = {static_cast<int>(idx + 1),
@@ -500,6 +506,11 @@ Params::Params(Config &config,
                         releases[idx],
                         angle};
     }
+
+	if (config.isDimacsRun || config.useDynamicParameters)
+	{
+		setDynamicParameters();
+	}
 
     // Safeguards to avoid possible numerical instability in case of instances
     // containing arbitrarily small or large numerical values
@@ -606,6 +617,12 @@ void Params::SetCorrelatedVertices()
 			correlatedVertices[i].push_back(x);
 		}
 	}
+}
+
+void Params::SetCorrelatedVertices(std::vector<std::vector<int>> correlatedVertices)
+{
+	assert(correlatedVertices.size() == nbClients + 1);
+	this->correlatedVertices = correlatedVertices;
 }
 
 void Params::setDynamicParameters()

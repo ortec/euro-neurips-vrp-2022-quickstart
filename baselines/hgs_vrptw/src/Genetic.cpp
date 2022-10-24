@@ -10,16 +10,20 @@
 #include "LocalSearch.h"
 #include "Individual.h"
 
-void Genetic::run(int maxIterNonProd, int timeLimit)
+void Genetic::run()
 {
 	if (params->nbClients == 1)
 	{
 		// Edge case: with 1 client, crossover will fail, genetic algorithm makes no sense
 		return;
 	}
+
+	// Generating initial population is part of run (since we also generate population when restarting)
+	population->generatePopulation();
+
 	// Do iterations of the Genetic Algorithm, until more then maxIterNonProd consecutive iterations without improvement or a time limit (in seconds) is reached
 	int nbIterNonProd = 1;
-	for (int nbIter = 0; nbIterNonProd <= maxIterNonProd && !params->isTimeLimitExceeded(); nbIter++)
+	for (int nbIter = 0; nbIterNonProd <= params->config.nbIter && !params->isTimeLimitExceeded(); nbIter++)
 	{
 		/* SELECTION AND CROSSOVER */
 		// First select parents using getNonIdenticalParentsBinaryTournament
@@ -70,7 +74,7 @@ void Genetic::run(int maxIterNonProd, int timeLimit)
 		}
 
 		/* FOR TESTS INVOLVING SUCCESSIVE RUNS UNTIL A TIME LIMIT: WE RESET THE ALGORITHM/POPULATION EACH TIME maxIterNonProd IS ATTAINED*/
-		if (timeLimit != INT_MAX && nbIterNonProd == maxIterNonProd && params->config.doRepeatUntilTimeLimit)
+		if (params->config.timeLimit != INT_MAX && nbIterNonProd == params->config.nbIter && params->config.doRepeatUntilTimeLimit)
 		{
 			population->restart();
 			nbIterNonProd = 1;

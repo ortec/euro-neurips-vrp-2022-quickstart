@@ -3,8 +3,11 @@ DATE=`date "+%Y-%m-%d-%H-%M-%S"`
 mkdir -p submissions
 cd submissions
 rm -rf tmp
-mkdir -p tmp/baselines/hgs_vrptw
-cp -r ../baselines/hgs_vrptw/{*.cpp,*.h,Makefile} tmp/baselines/hgs_vrptw
+mkdir -p tmp/baselines/hgs_vrptw/{src,include}
+cp -r ../baselines/hgs_vrptw/CMakeLists.txt tmp/baselines/hgs_vrptw
+cp -r ../baselines/hgs_vrptw/src/{*.cpp,CMakeLists.txt} tmp/baselines/hgs_vrptw/src
+cp -r ../baselines/hgs_vrptw/include/*.h tmp/baselines/hgs_vrptw/include
+cp -r ../baselines/hgs_vrptw/extern tmp/baselines/hgs_vrptw
 cp -r ../baselines/strategies tmp/baselines
 # Extra for supervised baseline
 mkdir -p tmp/baselines/supervised

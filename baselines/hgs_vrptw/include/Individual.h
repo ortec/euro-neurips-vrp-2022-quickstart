@@ -65,6 +65,9 @@ public:
 	// TODO: From line above: "needs to call evaluateCompleteCost afterwards;"
 	void shuffleChromT();
 
+	// Adding an individual in the structure of proximity
+	void addProximity(Individual* indiv, double distance);
+
 	// Removing the individual indiv from the structure of proximity
 	void removeProximity(Individual* indiv);
 
@@ -88,6 +91,9 @@ public:
 
 	// Constructor: create an individual from a giant tour representation including 0 for depot
 	Individual(Params* params, std::string solutionStr);
+
+	// Constructor: create an individual from a set of routes
+	Individual(Params* params, std::vector<std::vector<int>> const & routes);
 
 	// Constructor: create an empty individual
 	Individual();

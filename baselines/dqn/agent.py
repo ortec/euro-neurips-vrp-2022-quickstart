@@ -106,7 +106,7 @@ class DQNAgent:
 
         # epsilon greedy policy
         if self.dqn.training and self.epsilon > self.rng.random():
-            selected_action = self.rng.integers(0, 2)
+            selected_action = self.rng.integers(0, 2 - 1)
         else:
             selected_action = self.dqn(
                 torch.FloatTensor(state).to(self.device),
@@ -228,7 +228,6 @@ class DQNAgent:
         model.eval()
         args = Namespace(
             verbose=config.get('verbose', False),
-            tmp_dir=config.get('tmp_dir', os.path.join(self.train_config['ckpt_dir'], "tmp")),
             solver_seed=config.get('solver_seed', 1)
         )
         

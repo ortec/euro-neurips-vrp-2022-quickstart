@@ -113,6 +113,11 @@ void Individual::shuffleChromT()
 	std::shuffle(chromT.begin(), chromT.end(), params->rng);
 }
 
+void Individual::addProximity(Individual* indiv, double distance)
+{
+	indivsPerProximity.insert({ distance, indiv });
+}
+
 void Individual::removeProximity(Individual* indiv)
 {
 	// Get the first individual in indivsPerProximity
@@ -273,6 +278,28 @@ Individual::Individual(Params* params, std::string solutionStr) : params(params)
 		{
 			chromR[route].push_back(inputCustomer);
 			chromT[pos] = inputCustomer;
+			pos++;
+		}
+	}
+	assert (pos == params->nbClients);
+	evaluateCompleteCost();
+}
+
+
+Individual::Individual(Params* params, std::vector<std::vector<int>> const & routes) : params(params), isFeasible(false), biasedFitness(0)
+{
+	successors = std::vector<int>(params->nbClients + 1);
+	predecessors = std::vector<int>(params->nbClients + 1);
+	chromR = std::vector<std::vector<int>>(params->nbVehicles);
+	chromT = std::vector<int>(params->nbClients);
+
+	size_t pos = 0;
+	for(size_t i = 0; i < routes.size(); i++)
+	{
+		for (size_t j = 0; j < routes[i].size(); j++)
+		{
+			chromR[i].push_back(routes[i][j]);
+			chromT[pos] = routes[i][j];
 			pos++;
 		}
 	}
