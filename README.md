@@ -13,6 +13,21 @@ This repository provides all the necessary code to start the competition. It inc
 # Stay updated!
 Note: we will keep updating this repository with additional baselines, tools, information about code submission etc. to help you get most out of this competition! To stay updated, check back regularly, [follow us on Twitter](https://twitter.com/EuroNeuripsVRP) and join the [Slack workspace](https://join.slack.com/t/euro-neurips-vrp-2022/shared_invite/zt-1dldr119v-lV7FMmuxhRdkfXr07Mzgfw), which is also the place to ask questions! Don't forget to [register your team](https://euro-neurips-vrp-2022.challenges.ortec.com/#registration)!
 
+# Update: final results!
+The competition is now over. Here you can find the final leaderboard. You can also download the [papers](papers) and [slides](slides).
+|     rank    |     team             |     dynamic       |     static      |     static_rank    |     dynamic_rank    |     avg_cost      |     avg_rank    |
+|-------------|----------------------|-------------------|-----------------|--------------------|---------------------|-------------------|-----------------|
+|        1    |         Kleopatra    |       348831.6    |     157200.6    |               2    |                1    |       253016.1    |          1.5    |
+|        2    |            OptiML    |       359270.1    |     157188.7    |               1    |                3    |       258229.4    |            2    |
+|        3    |           Team_sb    |       358161.4    |     157214.3    |               3    |                2    |       257687.8    |          2.5    |
+|        4    |         HustSmart    |       361803.6    |     157227.2    |               5    |                4    |       259515.4    |          4.5    |
+|        5    |            MTGBWS    |       369098.1    |     157224.1    |               4    |                7    |       263161.1    |          5.5    |
+|        6    |       OrbertoHood    |       362481.1    |     157301.2    |               9    |                5    |       259891.2    |            7    |
+|        7    |        HowToRoute    |       369797.0    |     157251.1    |               7    |                8    |       263524.0    |          7.5    |
+|        8    |     Kirchhoffslaw    |       370670.5    |     157249.3    |               6    |                9    |       263959.9    |          7.5    |
+|        9    |               UPB    |       367007.5    |     157322.4    |              10    |                6    |       262164.9    |            8    |
+|       10    |            dynamo    |     90341073.0    |     157287.5    |               8    |               10    |     45249180.0    |            9    |
+
 # Installation
 
 The evaluation scripts are provided in Python, and the baseline solver (HGS-VRPTW) is implemented in C++.
