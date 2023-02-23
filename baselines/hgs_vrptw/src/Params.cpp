@@ -40,6 +40,7 @@ Params::Params(const CommandLine& cl)
 	durationLimit = INT_MAX;
 	vehicleCapacity = INT_MAX;
 	isDurationConstraint = false;
+	isExplicitDistanceMatrix = false;
 	
 	// Read INPUT dataset
 	std::ifstream inputFile(config.pathInstance);

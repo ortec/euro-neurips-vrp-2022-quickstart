@@ -1,0 +1,14 @@
+[
+    {
+        "instance": "ORTEC-VRPTW-ASYM-0bdff870-d1-n458-k35.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 30
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-0bdff870-d1-n458-k35.txt",
+        "instance_seed": 757,
+        "static": false,
+        "epoch_tlim": 5
+    }
+]

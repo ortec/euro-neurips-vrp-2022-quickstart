@@ -1,0 +1,1202 @@
+[
+    {
+        "instance": "ORTEC-VRPTW-ASYM-57977bd6-d1-n281-k17.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 300
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-57977bd6-d1-n281-k17.txt",
+        "instance_seed": 473,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-92f528a9-d1-n304-k35.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 600
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-92f528a9-d1-n304-k35.txt",
+        "instance_seed": 88,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-51a6250b-d1-n243-k20.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 300
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-51a6250b-d1-n243-k20.txt",
+        "instance_seed": 157,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-e4d359d2-d1-n408-k35.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 600
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-e4d359d2-d1-n408-k35.txt",
+        "instance_seed": 220,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-677e5123-d1-n337-k22.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 600
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-677e5123-d1-n337-k22.txt",
+        "instance_seed": 298,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-278d7c48-d1-n425-k40.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 600
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-278d7c48-d1-n425-k40.txt",
+        "instance_seed": 113,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-a7adee82-d1-n231-k20.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 300
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-a7adee82-d1-n231-k20.txt",
+        "instance_seed": 599,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-f2c6b1ef-d1-n370-k19.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 600
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-f2c6b1ef-d1-n370-k19.txt",
+        "instance_seed": 442,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-396d5dbb-d1-n248-k18.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 300
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-396d5dbb-d1-n248-k18.txt",
+        "instance_seed": 255,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-adfbc42e-d1-n327-k20.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 600
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-adfbc42e-d1-n327-k20.txt",
+        "instance_seed": 697,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-762abf35-d1-n222-k13.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 300
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-762abf35-d1-n222-k13.txt",
+        "instance_seed": 62,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-318aa2a1-d1-n332-k21.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 600
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-318aa2a1-d1-n332-k21.txt",
+        "instance_seed": 546,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-b6ee7d84-d1-n310-k18.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 600
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-b6ee7d84-d1-n310-k18.txt",
+        "instance_seed": 258,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-05362619-d1-n212-k20.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 300
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-05362619-d1-n212-k20.txt",
+        "instance_seed": 761,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-dcfe2527-d1-n304-k21.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 600
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-dcfe2527-d1-n304-k21.txt",
+        "instance_seed": 236,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-a7f2c4fa-d1-n328-k23.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 600
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-a7f2c4fa-d1-n328-k23.txt",
+        "instance_seed": 584,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-374c5f0f-d1-n329-k20.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 600
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-374c5f0f-d1-n329-k20.txt",
+        "instance_seed": 424,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-d5fcf776-d1-n304-k15.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 600
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-d5fcf776-d1-n304-k15.txt",
+        "instance_seed": 896,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-ab71ae29-d1-n696-k40.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 900
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-ab71ae29-d1-n696-k40.txt",
+        "instance_seed": 116,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-067d6ec2-d1-n364-k22.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 600
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-067d6ec2-d1-n364-k22.txt",
+        "instance_seed": 150,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-75ab105a-d1-n299-k23.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 300
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-75ab105a-d1-n299-k23.txt",
+        "instance_seed": 198,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-b2384b72-d1-n318-k19.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 600
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-b2384b72-d1-n318-k19.txt",
+        "instance_seed": 504,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-80974c9e-d1-n258-k20.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 300
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-80974c9e-d1-n258-k20.txt",
+        "instance_seed": 329,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-a9f9af05-d1-n338-k25.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 600
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-a9f9af05-d1-n338-k25.txt",
+        "instance_seed": 851,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-1b04e289-d1-n246-k26.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 300
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-1b04e289-d1-n246-k26.txt",
+        "instance_seed": 241,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-219c1a89-d1-n275-k18.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 300
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-219c1a89-d1-n275-k18.txt",
+        "instance_seed": 182,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-a82ecd5f-d1-n360-k19.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 600
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-a82ecd5f-d1-n360-k19.txt",
+        "instance_seed": 517,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-d6a07158-d1-n538-k39.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 900
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-d6a07158-d1-n538-k39.txt",
+        "instance_seed": 613,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-9f661cfd-d1-n267-k19.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 300
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-9f661cfd-d1-n267-k19.txt",
+        "instance_seed": 41,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-af2c5ed6-d1-n296-k18.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 300
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-af2c5ed6-d1-n296-k18.txt",
+        "instance_seed": 284,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-2abacc27-d1-n301-k19.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 600
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-2abacc27-d1-n301-k19.txt",
+        "instance_seed": 178,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-54220d07-d1-n320-k18.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 600
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-54220d07-d1-n320-k18.txt",
+        "instance_seed": 859,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-5d7c8922-d1-n320-k26.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 600
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-5d7c8922-d1-n320-k26.txt",
+        "instance_seed": 376,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-180e9e8b-d1-n247-k16.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 300
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-180e9e8b-d1-n247-k16.txt",
+        "instance_seed": 538,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-77e2a832-d1-n432-k22.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 600
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-77e2a832-d1-n432-k22.txt",
+        "instance_seed": 632,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-651f1ab4-d1-n273-k25.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 300
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-651f1ab4-d1-n273-k25.txt",
+        "instance_seed": 439,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-ab871b78-d1-n327-k22.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 600
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-ab871b78-d1-n327-k22.txt",
+        "instance_seed": 481,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-a5717adc-d1-n207-k12.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 300
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-a5717adc-d1-n207-k12.txt",
+        "instance_seed": 325,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-114d6c71-d1-n238-k30.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 300
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-114d6c71-d1-n238-k30.txt",
+        "instance_seed": 760,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-a2f023f6-d1-n288-k25.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 300
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-a2f023f6-d1-n288-k25.txt",
+        "instance_seed": 943,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-a57f2737-d1-n362-k21.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 600
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-a57f2737-d1-n362-k21.txt",
+        "instance_seed": 808,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-76f9a799-d1-n358-k22.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 600
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-76f9a799-d1-n358-k22.txt",
+        "instance_seed": 751,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-72419b57-d1-n383-k27.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 600
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-72419b57-d1-n383-k27.txt",
+        "instance_seed": 703,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-d86faab0-d1-n281-k17.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 300
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-d86faab0-d1-n281-k17.txt",
+        "instance_seed": 433,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-2e0e90b1-d1-n293-k20.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 300
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-2e0e90b1-d1-n293-k20.txt",
+        "instance_seed": 199,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-843d130e-d1-n211-k20.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 300
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-843d130e-d1-n211-k20.txt",
+        "instance_seed": 950,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-6a265c9a-d1-n201-k13.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 300
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-6a265c9a-d1-n201-k13.txt",
+        "instance_seed": 630,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-3ab6b5d5-d1-n229-k17.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 300
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-3ab6b5d5-d1-n229-k17.txt",
+        "instance_seed": 494,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-85919ddc-d1-n257-k20.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 300
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-85919ddc-d1-n257-k20.txt",
+        "instance_seed": 804,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-cc992a97-d1-n314-k22.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 600
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-cc992a97-d1-n314-k22.txt",
+        "instance_seed": 207,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-a9f1170f-d1-n441-k30.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 600
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-a9f1170f-d1-n441-k30.txt",
+        "instance_seed": 677,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-2322c8ce-d1-n222-k30.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 300
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-2322c8ce-d1-n222-k30.txt",
+        "instance_seed": 949,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-86f2c4bf-d1-n487-k44.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 600
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-86f2c4bf-d1-n487-k44.txt",
+        "instance_seed": 13,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-d3e0d9ae-d1-n212-k15.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 300
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-d3e0d9ae-d1-n212-k15.txt",
+        "instance_seed": 776,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-9048af97-d1-n325-k25.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 600
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-9048af97-d1-n325-k25.txt",
+        "instance_seed": 592,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-cc05bba4-d1-n200-k15.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 300
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-cc05bba4-d1-n200-k15.txt",
+        "instance_seed": 818,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-94e3c3a6-d1-n484-k30.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 600
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-94e3c3a6-d1-n484-k30.txt",
+        "instance_seed": 826,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-619b0e55-d1-n504-k40.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 900
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-619b0e55-d1-n504-k40.txt",
+        "instance_seed": 153,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-c1f76654-d1-n234-k15.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 300
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-c1f76654-d1-n234-k15.txt",
+        "instance_seed": 707,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-6984ad25-d1-n205-k20.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 300
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-6984ad25-d1-n205-k20.txt",
+        "instance_seed": 887,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-50177145-d1-n378-k30.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 600
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-50177145-d1-n378-k30.txt",
+        "instance_seed": 899,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-bca30cfc-d1-n415-k45.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 600
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-bca30cfc-d1-n415-k45.txt",
+        "instance_seed": 868,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-852a6910-d1-n202-k20.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 300
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-852a6910-d1-n202-k20.txt",
+        "instance_seed": 86,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-c526c4a2-d1-n432-k27.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 600
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-c526c4a2-d1-n432-k27.txt",
+        "instance_seed": 912,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-d4935e87-d1-n276-k25.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 300
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-d4935e87-d1-n276-k25.txt",
+        "instance_seed": 790,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-87ed4acf-d1-n314-k19.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 600
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-87ed4acf-d1-n314-k19.txt",
+        "instance_seed": 629,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-875882fa-d1-n215-k12.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 300
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-875882fa-d1-n215-k12.txt",
+        "instance_seed": 220,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-94798935-d1-n246-k25.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 300
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-94798935-d1-n246-k25.txt",
+        "instance_seed": 860,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-27232d73-d1-n208-k20.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 300
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-27232d73-d1-n208-k20.txt",
+        "instance_seed": 370,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-b983ba77-d1-n214-k17.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 300
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-b983ba77-d1-n214-k17.txt",
+        "instance_seed": 420,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-072c9291-d1-n432-k30.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 600
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-072c9291-d1-n432-k30.txt",
+        "instance_seed": 197,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-7cb44bcb-d1-n316-k19.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 600
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-7cb44bcb-d1-n316-k19.txt",
+        "instance_seed": 324,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-770f2cd3-d1-n287-k18.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 300
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-770f2cd3-d1-n287-k18.txt",
+        "instance_seed": 805,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-da19e24a-d1-n354-k22.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 600
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-da19e24a-d1-n354-k22.txt",
+        "instance_seed": 871,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-73fcc0ab-d1-n275-k20.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 300
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-73fcc0ab-d1-n275-k20.txt",
+        "instance_seed": 132,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-afa32250-d1-n261-k20.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 300
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-afa32250-d1-n261-k20.txt",
+        "instance_seed": 933,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-0797fbc1-d1-n259-k15.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 300
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-0797fbc1-d1-n259-k15.txt",
+        "instance_seed": 614,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-b89e3f52-d1-n220-k17.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 300
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-b89e3f52-d1-n220-k17.txt",
+        "instance_seed": 369,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-cfe86a35-d1-n262-k18.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 300
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-cfe86a35-d1-n262-k18.txt",
+        "instance_seed": 938,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-b974ae18-d1-n249-k25.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 300
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-b974ae18-d1-n249-k25.txt",
+        "instance_seed": 282,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-fbedf849-d1-n336-k25.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 600
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-fbedf849-d1-n336-k25.txt",
+        "instance_seed": 109,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-a161ee71-d1-n250-k25.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 300
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-a161ee71-d1-n250-k25.txt",
+        "instance_seed": 804,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-be9d7acd-d1-n221-k15.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 300
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-be9d7acd-d1-n221-k15.txt",
+        "instance_seed": 228,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-5e37bd11-d1-n486-k30.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 600
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-5e37bd11-d1-n486-k30.txt",
+        "instance_seed": 255,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-756b440e-d1-n294-k20.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 300
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-756b440e-d1-n294-k20.txt",
+        "instance_seed": 889,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-df8f2eda-d1-n359-k27.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 600
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-df8f2eda-d1-n359-k27.txt",
+        "instance_seed": 857,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-52231a84-d1-n315-k20.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 600
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-52231a84-d1-n315-k20.txt",
+        "instance_seed": 475,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-665fce39-d1-n303-k19.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 600
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-665fce39-d1-n303-k19.txt",
+        "instance_seed": 342,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-bbccd2dd-d1-n271-k25.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 300
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-bbccd2dd-d1-n271-k25.txt",
+        "instance_seed": 370,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-6cc299a2-d1-n489-k35.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 600
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-6cc299a2-d1-n489-k35.txt",
+        "instance_seed": 242,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-c7de4e2f-d1-n471-k34.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 600
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-c7de4e2f-d1-n471-k34.txt",
+        "instance_seed": 188,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-8553ed86-d1-n222-k13.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 300
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-8553ed86-d1-n222-k13.txt",
+        "instance_seed": 199,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-4154709c-d1-n375-k24.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 600
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-4154709c-d1-n375-k24.txt",
+        "instance_seed": 967,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-883f3b83-d1-n264-k18.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 300
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-883f3b83-d1-n264-k18.txt",
+        "instance_seed": 153,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-1be7a513-d1-n240-k15.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 300
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-1be7a513-d1-n240-k15.txt",
+        "instance_seed": 387,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-fb18c688-d1-n338-k22.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 600
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-fb18c688-d1-n338-k22.txt",
+        "instance_seed": 851,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-95acb866-d1-n201-k18.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 300
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-95acb866-d1-n201-k18.txt",
+        "instance_seed": 423,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-18f115bd-d1-n312-k18.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 600
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-18f115bd-d1-n312-k18.txt",
+        "instance_seed": 842,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-f9ec0671-d1-n224-k12.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 300
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-f9ec0671-d1-n224-k12.txt",
+        "instance_seed": 565,
+        "static": false,
+        "epoch_tlim": 120
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-56c92e89-d1-n262-k20.txt",
+        "instance_seed": 0,
+        "static": true,
+        "epoch_tlim": 300
+    },
+    {
+        "instance": "ORTEC-VRPTW-ASYM-56c92e89-d1-n262-k20.txt",
+        "instance_seed": 429,
+        "static": false,
+        "epoch_tlim": 120
+    }
+]
